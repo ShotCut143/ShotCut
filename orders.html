@@ -1,205 +1,419 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Shot.Cut — Orders</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg:#060607;
-      --muted:#cfcfd0;
-      --accent:#00ffc6;
-      --card: rgba(255,255,255,0.03);
-    }
-    body{
-      margin:0;
-      font-family:"Poppins",sans-serif;
-      background:linear-gradient(180deg,#040405 0%, #0b0b0b 100%);
-      color:#fff;
-      padding:28px;
-    }
-    .header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      margin-bottom:18px;
-    }
-    .brand{
-      display:flex;
-      gap:12px;
-      align-items:center;
-    }
-    .brand img{width:44px;height:44px;border-radius:8px}
-    h1{color:var(--accent);font-size:20px;margin:0}
-    .controls{display:flex;gap:8px;align-items:center}
-    .btn{
-      padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:700;
-      background:linear-gradient(90deg,#00ffc6,#39f2d1);color:#041414;
-    }
-    .btn.ghost{background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.06)}
-    .orders{
-      display:flex;flex-direction:column;gap:14px;margin-top:16px;
-    }
-    .order{
-      width:100%;
-      border-radius:12px;
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      padding:18px;
-      border:1px solid rgba(255,255,255,0.03);
-      display:flex;flex-direction:row;gap:16px;align-items:center;
-      justify-content:space-between;
-    }
-    .order-left{flex:1}
-    .meta{color:#bfbfbf;font-size:13px;margin-bottom:8px}
-    .title{color:var(--accent);font-weight:800;margin-bottom:6px}
-    .order-right{display:flex;gap:8px;align-items:center}
-    .contact-btn{
-      padding:10px 12px;border-radius:10px;border:0;cursor:pointer;background:linear-gradient(90deg,#00d18e,#00ffc6);color:#041414;font-weight:800;
-    }
-    .trash{
-      background:linear-gradient(90deg,#ff6b6b,#ff9b6b);color:#041414;border-radius:10px;border:0;padding:10px 12px;font-weight:800;cursor:pointer;
-    }
-    .empty{color:#bfbfbf;padding:28px;border-radius:12px;text-align:center;border:1px dashed rgba(255,255,255,0.04)}
-    @media(max-width:720px){
-      .order{flex-direction:column;align-items:flex-start}
-      .order-right{width:100%;justify-content:space-between}
-    }
-  </style>
-</head>
-<body>
-  <div class="header">
-    <div class="brand">
-      <img src="https://i.ibb.co/KxYv46dg/ScLogo2.png" alt="logo">
-      <div>
-        <h1>Shot.Cut — Orders</h1>
-        <div style="color:#bfbfbf;font-size:13px">Private orders dashboard</div>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Shot.Cut — Orders</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #060607;
+        --muted: #cfcfd0;
+        --accent: #00ffc6;
+        --card: rgba(255, 255, 255, 0.03);
+      }
+      body {
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(180deg, #040405 0%, #0b0b0b 100%);
+        color: #fff;
+        padding: 28px;
+      }
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 18px;
+      }
+      .brand {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+      .brand img {
+        width: 44px;
+        height: 44px;
+        border-radius: 8px;
+      }
+      h1 {
+        color: var(--accent);
+        font-size: 20px;
+        margin: 0;
+      }
+      .controls {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .btn {
+        padding: 10px 14px;
+        border-radius: 10px;
+        border: 0;
+        cursor: pointer;
+        font-weight: 700;
+        background: linear-gradient(90deg, #00ffc6, #39f2d1);
+        color: #041414;
+      }
+      .btn.ghost {
+        background: transparent;
+        color: var(--muted);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .orders {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin-top: 16px;
+      }
+      .order {
+        width: 100%;
+        border-radius: 12px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          rgba(255, 255, 255, 0.01)
+        );
+        padding: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        display: flex;
+        flex-direction: row;
+        gap: 16px;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .order-left {
+        flex: 1;
+      }
+      .meta {
+        color: #bfbfbf;
+        font-size: 13px;
+        margin-bottom: 8px;
+      }
+      .title {
+        color: var(--accent);
+        font-weight: 800;
+        margin-bottom: 6px;
+      }
+      .order-right {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .contact-btn {
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 0;
+        cursor: pointer;
+        background: linear-gradient(90deg, #00d18e, #00ffc6);
+        color: #041414;
+        font-weight: 800;
+      }
+      .ghost-small {
+        background: transparent;
+        color: var(--muted);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        padding: 8px 10px;
+        border-radius: 8px;
+      }
+      .trash {
+        background: linear-gradient(90deg, #ff6b6b, #ff9b6b);
+        color: #041414;
+        border-radius: 10px;
+        border: 0;
+        padding: 10px 12px;
+        font-weight: 800;
+        cursor: pointer;
+      }
+      .empty {
+        color: #bfbfbf;
+        padding: 28px;
+        border-radius: 12px;
+        text-align: center;
+        border: 1px dashed rgba(255, 255, 255, 0.04);
+      }
+      @media (max-width: 720px) {
+        .order {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .order-right {
+          width: 100%;
+          justify-content: space-between;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div class="brand">
+        <img src="https://i.ibb.co/KxYv46dg/ScLogo2.png" alt="logo" />
+        <div>
+          <h1>Shot.Cut — Orders</h1>
+          <div style="color: #bfbfbf; font-size: 13px">
+            Private orders dashboard
+          </div>
+        </div>
+      </div>
+      <div class="controls">
+        <button class="btn" id="refreshBtn">Refresh</button>
+        <button class="btn ghost" id="exportBtn">Export JSON</button>
+        <button class="btn ghost" id="clearAllBtn">Delete all</button>
       </div>
     </div>
-    <div class="controls">
-      <button class="btn" id="refreshBtn">Refresh</button>
-      <button class="btn ghost" id="exportBtn">Export JSON</button>
-      <button class="btn ghost" id="clearAllBtn">Delete all</button>
+
+    <div id="ordersWrap">
+      <div class="empty">Loading orders...</div>
     </div>
-  </div>
 
-  <div id="ordersWrap">
-    <div class="empty">Loading orders...</div>
-  </div>
+    <script>
+      // === Simple password protection (client-side). Change this value before publishing. ===
+      const ADMIN_PASSWORD = "123"; // <- change this
+      const pw = prompt("Enter admin password to view orders:");
+      if (pw !== ADMIN_PASSWORD) {
+        document.body.innerHTML =
+          "<div style='padding:40px;text-align:center;color:#f88'>Access denied. Incorrect password.</div>";
+        throw new Error("Access denied");
+      }
 
-<script>
-  // === Simple password protection (client-side). Change this value before publishing. ===
-  const ADMIN_PASSWORD = "123"; // <- change this
-  const pw = prompt("Enter admin password to view orders:");
-  if (pw !== ADMIN_PASSWORD) {
-    document.body.innerHTML = "<div style='padding:40px;text-align:center;color:#f88'>Access denied. Incorrect password.</div>";
-    throw new Error("Access denied");
-  }
+      const key = "shotcut_orders";
+      const wrap = document.getElementById("ordersWrap");
+      const refreshBtn = document.getElementById("refreshBtn");
+      const exportBtn = document.getElementById("exportBtn");
+      const clearAllBtn = document.getElementById("clearAllBtn");
 
-  const key = "shotcut_orders";
-  const wrap = document.getElementById("ordersWrap");
-  const refreshBtn = document.getElementById("refreshBtn");
-  const exportBtn = document.getElementById("exportBtn");
-  const clearAllBtn = document.getElementById("clearAllBtn");
+      function loadOrders() {
+        const arr = JSON.parse(localStorage.getItem(key) || "[]");
+        render(arr);
+      }
 
-  function loadOrders() {
-    const arr = JSON.parse(localStorage.getItem(key) || "[]");
-    render(arr);
-  }
+      function render(arr) {
+        wrap.innerHTML = "";
+        if (!arr || arr.length === 0) {
+          wrap.innerHTML = '<div class="empty">No orders yet.</div>';
+          return;
+        }
+        const container = document.createElement("div");
+        container.className = "orders";
+        arr.forEach((o) => {
+          const card = document.createElement("div");
+          card.className = "order";
 
-  function render(arr) {
-    wrap.innerHTML = "";
-    if (!arr || arr.length === 0) {
-      wrap.innerHTML = '<div class="empty">No orders yet.</div>';
-      return;
-    }
-    const container = document.createElement("div");
-    container.className = "orders";
-    arr.forEach((o) => {
-      const card = document.createElement("div");
-      card.className = "order";
+          const left = document.createElement("div");
+          left.className = "order-left";
 
-      const left = document.createElement("div");
-      left.className = "order-left";
-      left.innerHTML = `
-        <div class="title">${o.productType} • ${o.quality} • $${o.cost}</div>
-        <div class="meta">Order ID: ${o.id} • ${new Date(o.createdAt).toLocaleString()}</div>
-        <div style="color:#e6e6e6; margin-bottom:8px"><strong>Description</strong>: ${o.description ? escapeHtml(o.description) : "<em>—</em>"}</div>
-        <div style="color:#bfbfbf; font-size:13px"><strong>Additional</strong>: ${o.additional ? escapeHtml(o.additional) : "<em>—</em>"}</div>
-      `;
+          // cost label (support older orders too)
+          let costLabel = o.costLabel;
+          if (!costLabel) {
+            const symbol =
+              o.currency === "INR" ? "₹" : o.currency === "EUR" ? "€" : "$";
+            costLabel = `${symbol}${o.cost}`;
+          }
 
-      const right = document.createElement("div");
-      right.className = "order-right";
-      const contact = document.createElement("a");
-      contact.className = "contact-btn";
-      // ensure phone is sanitized
-      const phoneNormalized = (o.phone || "").replace(/\s+/g, "");
-      contact.href = `tel:${phoneNormalized}`;
-      contact.textContent = `Contact ${o.phone || ""}`;
-      contact.setAttribute("aria-label","Contact client");
+          const statusLabel =
+            o.status === "approved"
+              ? '<span style="color:#00ffb0; font-weight:800">Approved</span>'
+              : '<span style="color:#f0bfbf; font-weight:800">New</span>';
 
-      const waButton = document.createElement("a");
-      waButton.className = "btn ghost";
-      const msg = encodeURIComponent(`Hi, regarding order ${o.id} — ${o.productType}, ${o.quality}.`);
-      waButton.href = `https://wa.me/${phoneNormalized.replace(/\D/g,'')}?text=${msg}`;
-      waButton.target = "_blank";
-      waButton.textContent = "WhatsApp";
+          left.innerHTML = `
+      <div style="display:flex; align-items:center; gap:10px; justify-content:space-between">
+        <div class="title">${escapeHtml(o.productType)} • ${escapeHtml(
+            o.quality
+          )} • ${escapeHtml(costLabel)}</div>
+        <div>${statusLabel}</div>
+      </div>
+      <div class="meta">Order ID: ${escapeHtml(o.id)} • ${new Date(
+            o.createdAt
+          ).toLocaleString()}</div>
+      <div style="color:#e6e6e6; margin-bottom:8px"><strong>Description</strong>: ${
+        o.description ? escapeHtml(o.description) : "<em>—</em>"
+      }</div>
+      <div style="color:#bfbfbf; font-size:13px"><strong>Additional</strong>: ${
+        o.additional ? escapeHtml(o.additional) : "<em>—</em>"
+      }</div>
+      <div style="color:#bfbfbf; font-size:13px; margin-top:8px"><strong>Instagram</strong>: ${
+        o.instagram
+          ? `<a href="https://instagram.com/${encodeURIComponent(
+              o.instagram.replace(/^@/, "")
+            )}" target="_blank" rel="noopener" class="ghost-small">${escapeHtml(
+              o.instagram
+            )}</a>`
+          : "<em>—</em>"
+      }</div>
+      <div style="color:#bfbfbf; font-size:13px; margin-top:6px"><strong>Email</strong>: ${
+        o.email ? escapeHtml(o.email) : "<em>—</em>"
+      }</div>
+      <div style="color:#bfbfbf; font-size:13px; margin-top:6px"><strong>Phone</strong>: ${
+        o.phone ? escapeHtml(o.phone) : "<em>—</em>"
+      }</div>
+    `;
 
-      const del = document.createElement("button");
-      del.className = "trash";
-      del.textContent = "Delete";
-      del.addEventListener("click", () => {
-        if (!confirm("Delete this order?")) return;
-        deleteOrder(o.id);
+          const right = document.createElement("div");
+          right.className = "order-right";
+
+          // Contact (tel)
+          const contact = document.createElement("a");
+          contact.className = "contact-btn";
+          const phoneNormalized = (o.phone || "").replace(/\s+/g, "");
+          contact.href = `tel:${phoneNormalized}`;
+          contact.textContent = `Contact ${o.phone || ""}`;
+          contact.setAttribute("aria-label", "Contact client");
+
+          // WhatsApp: only show if o.whatsapp provided
+          const waContainer = document.createElement("div");
+          if (o.whatsapp && o.whatsapp.trim() !== "") {
+            const waButton = document.createElement("a");
+            waButton.className = "btn ghost";
+            const waNum = o.whatsapp.replace(/\D/g, "");
+            const msg = encodeURIComponent(
+              `Hi, regarding order ${o.id} — ${o.productType}, ${o.quality}.`
+            );
+            waButton.href = `https://wa.me/${waNum}?text=${msg}`;
+            waButton.target = "_blank";
+            waButton.textContent = "WhatsApp";
+            waContainer.appendChild(waButton);
+          } else {
+            const notProvided = document.createElement("div");
+            notProvided.style.color = "#bfbfbf";
+            notProvided.style.padding = "8px 10px";
+            notProvided.style.borderRadius = "8px";
+            notProvided.style.fontWeight = "700";
+            notProvided.textContent = "WhatsApp: Not Provided";
+            waContainer.appendChild(notProvided);
+          }
+
+          // Approve button (NEW)
+          const approveBtn = document.createElement("button");
+          approveBtn.className = "btn";
+          approveBtn.textContent =
+            o.status === "approved" ? "Approved" : "Approve";
+          approveBtn.disabled = o.status === "approved";
+          approveBtn.title = "Approve order and notify client by email";
+          approveBtn.style.fontWeight = "800";
+          approveBtn.addEventListener("click", async () => {
+            if (
+              !confirm("Approve this order and send approval email to client?")
+            )
+              return;
+            // update status locally
+            const arrAll = JSON.parse(localStorage.getItem(key) || "[]");
+            const idx = arrAll.findIndex((x) => x.id === o.id);
+            if (idx === -1) {
+              alert("Order not found.");
+              return;
+            }
+            arrAll[idx].status = "approved";
+            localStorage.setItem(key, JSON.stringify(arrAll));
+            // re-render
+            loadOrders();
+
+            // Send email via EmailJS
+            try {
+              // Replace these placeholders with your EmailJS service/template IDs
+              const SERVICE_ID = "service_2t9misj";
+              const TEMPLATE_ID = "template_5dtjlro";
+              // template parameters — match to your template variables
+              const templateParams = {
+                to_email: o.email || "",
+                order_id: o.id,
+                product_type: o.productType,
+                quality: o.quality,
+                cost_label: o.costLabel || o.cost,
+                description: o.description || "",
+                phone: o.phone || "",
+              };
+              if (!window.emailjs) {
+                console.warn(
+                  "EmailJS not initialized — please add the EmailJS SDK and call emailjs.init() with your public key."
+                );
+                return;
+              }
+              await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams);
+              alert("Approval email sent to client.");
+            } catch (err) {
+              console.error("Error sending approval email:", err);
+              alert(
+                "Failed to send approval email. Check console for details."
+              );
+            }
+          });
+
+          const del = document.createElement("button");
+          del.className = "trash";
+          del.textContent = "Delete";
+          del.addEventListener("click", () => {
+            if (!confirm("Delete this order?")) return;
+            deleteOrder(o.id);
+          });
+
+          right.appendChild(contact);
+          right.appendChild(waContainer);
+          right.appendChild(approveBtn);
+          right.appendChild(del);
+
+          card.appendChild(left);
+          card.appendChild(right);
+          container.appendChild(card);
+        });
+
+        wrap.appendChild(container);
+      }
+
+      // escape helper
+      function escapeHtml(str) {
+        return String(str)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function deleteOrder(id) {
+        const arr = JSON.parse(localStorage.getItem(key) || "[]");
+        const filtered = arr.filter((o) => o.id !== id);
+        localStorage.setItem(key, JSON.stringify(filtered));
+        loadOrders();
+      }
+
+      refreshBtn.addEventListener("click", loadOrders);
+      exportBtn.addEventListener("click", () => {
+        const arr = JSON.parse(localStorage.getItem(key) || "[]");
+        const dataStr =
+          "data:text/json;charset=utf-8," +
+          encodeURIComponent(JSON.stringify(arr, null, 2));
+        const a = document.createElement("a");
+        a.href = dataStr;
+        a.download = "shotcut_orders.json";
+        a.click();
       });
 
-      right.appendChild(contact);
-      right.appendChild(waButton);
-      right.appendChild(del);
+      clearAllBtn.addEventListener("click", () => {
+        if (!confirm("Delete ALL orders? This cannot be undone.")) return;
+        localStorage.removeItem(key);
+        loadOrders();
+      });
 
-      card.appendChild(left);
-      card.appendChild(right);
-      container.appendChild(card);
-    });
-
-    wrap.appendChild(container);
-  }
-
-  // escape helper
-  function escapeHtml(str) {
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
-  }
-
-  function deleteOrder(id) {
-    const arr = JSON.parse(localStorage.getItem(key) || "[]");
-    const filtered = arr.filter(o => o.id !== id);
-    localStorage.setItem(key, JSON.stringify(filtered));
-    loadOrders();
-  }
-
-  refreshBtn.addEventListener("click", loadOrders);
-  exportBtn.addEventListener("click", () => {
-    const arr = JSON.parse(localStorage.getItem(key) || "[]");
-    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(arr, null, 2));
-    const a = document.createElement("a");
-    a.href = dataStr;
-    a.download = "shotcut_orders.json";
-    a.click();
-  });
-
-  clearAllBtn.addEventListener("click", () => {
-    if (!confirm("Delete ALL orders? This cannot be undone.")) return;
-    localStorage.removeItem(key);
-    loadOrders();
-  });
-
-  // initial load
-  loadOrders();
-</script>
-</body>
+      // initial load
+      loadOrders();
+    </script>
+    <!-- EmailJS SDK v4 -->
+    <script type="text/javascript">
+      (function () {
+        // Load EmailJS SDK v4 dynamically
+        const script = document.createElement("script");
+        script.src =
+          "https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js";
+        script.onload = () => {
+          emailjs.init({
+            publicKey: "6AjRFYI2o58UTimZ3", // ← replace with your real public key
+          });
+          console.log("✅ EmailJS v4 initialized");
+        };
+        document.head.appendChild(script);
+      })();
+    </script>
+  </body>
 </html>
