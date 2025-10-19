@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Saifan | Portfolio</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --bg: #050506;
+        --muted: #cfcfd0;
+        --accent: #00ffc6;
+        --card: rgba(255, 255, 255, 0.03);
+        --glass: rgba(255, 255, 255, 0.03);
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Poppins", sans-serif;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: linear-gradient(180deg, #040405 0%, #0b0b0b 100%);
+        color: #fff;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        overflow-x: hidden;
+      }
+
+      /* Header */
+      header {
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        z-index: 120;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 6%;
+        background: linear-gradient(
+          90deg,
+          rgba(10, 10, 10, 0.6),
+          rgba(5, 5, 5, 0.45)
+        );
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(6px);
+      }
+
+      /* Logo Container Styling */
+      .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 8px; /* Space between logo and text */
+      }
+      .logo-container h1 {
+        color: var(--accent);
+        letter-spacing: 0px;
+        font-size: 22px;
+      }
+      .logo-img {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%; /* Make it a perfect circle */
+        overflow: hidden;
+        display: flex;
+        margin: 0 10px;
+        align-items: center;
+        justify-content: center;
+      }
+      .logo-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      nav a {
+        color: var(--muted);
+        text-decoration: none;
+        margin-left: 18px;
+        font-weight: 500;
+        transition: all 0.25s ease;
+      }
+      nav a:hover {
+        color: var(--accent);
+        transform: translateY(-2px);
+      }
+
+      /* Hamburger menu */
+      .hamburger {
+        display: none;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 4px;
+        transition: all 0.25s ease;
+      }
+      .hamburger:hover {
+        background: rgba(255, 255, 255, 0.05);
+      }
+      .hamburger svg {
+        width: 24px;
+        height: 24px;
+        stroke: var(--muted);
+      }
+      .hamburger:hover svg {
+        stroke: var(--accent);
+      }
+      nav {
+        display: flex;
+      }
+      @media (max-width: 768px) {
+        nav {
+          display: none;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          background: linear-gradient(
+            90deg,
+            rgba(10, 10, 10, 0.95),
+            rgba(5, 5, 5, 0.9)
+          );
+          flex-direction: column;
+          padding: 20px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+          backdrop-filter: blur(6px);
+        }
+        nav.open {
+          display: flex;
+        }
+        nav a {
+          margin-left: 0;
+          margin-bottom: 10px;
+          padding: 10px 0;
+        }
+        .hamburger {
+          display: block;
+        }
+      }
+
+      /* Social icons in header */
+      .socials {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        display: inline-grid;
+        place-items: center;
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        transition: all 0.25s ease;
+        cursor: pointer;
+      }
+      .icon:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 0 16px rgba(0, 255, 200, 0.303);
+        border-color: rgba(0, 255, 198, 0.18);
+      }
+
+      /* Hero */
+      .hero {
+        height: 100vh;
+        padding-top: 90px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+      .hero-inner {
+        max-width: 980px;
+        padding: 30px;
+      }
+      .badge {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: linear-gradient(
+          90deg,
+          rgba(0, 255, 198, 0.08),
+          rgba(0, 255, 198, 0.04)
+        );
+        color: var(--accent);
+        font-weight: 600;
+        margin-bottom: 14px;
+        letter-spacing: 1px;
+        font-size: 14px;
+      }
+      .hero h2 {
+        font-size: 36px;
+        color: transparent;
+        background: linear-gradient(90deg, #00ffc6, #76fff0 50%, #bafef0);
+        -webkit-background-clip: text;
+        word-spacing: 4px;
+        background-clip: text;
+        font-weight: 800;
+        line-height: 1;
+        margin-bottom: 10px;
+        animation: pop 700ms cubic-bezier(0.22, 0.9, 0.26, 1) both;
+      }
+      .hero p.lead {
+        color: #d6d6d6;
+        font-size: 16px;
+        max-width: 780px;
+        margin: 0 auto 12px;
+        word-spacing: 1px;
+        line-height: 1.6;
+        opacity: 0.95;
+      }
+      @keyframes pop {
+        from {
+          transform: translateY(12px) scale(0.98);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0) scale(1);
+          opacity: 1;
+        }
+      }
+
+      /* CTA buttons */
+      .cta-row {
+        margin-top: 18px;
+        display: flex;
+        gap: 14px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .btn {
+        padding: 12px 18px;
+        border-radius: 10px;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 600;
+        cursor: pointer;
+        border: 0;
+        text-decoration: none;
+        transition: all 0.28s ease;
+        box-shadow: 0 8px 30px rgba(2, 2, 2, 0.5);
+      }
+      .btn-primary {
+        background: linear-gradient(90deg, #00ffc6, #39f2d1);
+        color: #041414;
+      }
+      .btn-primary:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 18px 40px rgba(0, 255, 198, 0.12);
+      }
+      .btn-outline {
+        background: transparent;
+        color: var(--muted);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .btn-outline:hover {
+        color: var(--accent);
+        transform: translateY(-3px);
+      }
+
+      /* Sections */
+      .section {
+        padding: 60px 6%;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      /* Skills & About layout */
+      .split {
+        display: flex;
+        gap: 40px;
+        align-items: flex-start;
+        flex-wrap: wrap;
+      }
+      .left {
+        flex: 1 1 420px;
+        min-width: 300px;
+      }
+      .right {
+        flex: 1 1 520px;
+        min-width: 300px;
+      }
+
+      .card {
+        padding: 26px;
+        border-radius: 14px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          rgba(255, 255, 255, 0.01)
+        );
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        box-shadow: 0 10px 30px rgba(2, 2, 2, 0.5);
+      }
+
+      .left h3,
+      .right h3 {
+        color: var(--accent);
+        margin-bottom: 12px;
+        font-size: 22px;
+      }
+      .about-text {
+        color: #dcdcdc;
+        line-height: 1.7;
+        margin-bottom: 14px;
+      }
+
+      .skills-list {
+        list-style: none;
+        display: grid;
+        gap: 10px;
+        padding: 0;
+        margin-top: 8px;
+      }
+      .skills-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        background: transparent;
+        padding: 10px;
+        /* Default for Skills & Experience */
+        border-left: 3px solid rgba(0, 255, 198, 0.06);
+        transition: all 0.22s ease;
+        border-radius: 8px;
+      }
+      /* Hover for both Skills AND Disclaimer (Request 1) */
+      .skills-list li:hover {
+        transform: translateX(6px);
+        border-left-color: var(--accent); /* Accent color border */
+        background: rgba(0, 255, 198, 0.02); /* Light accent background */
+      }
+
+      .skill-dot {
+        width: 10px;
+        height: 10px;
+        background: var(--accent);
+        border-radius: 50%;
+        margin-top: 6px;
+        box-shadow: 0 6px 12px rgba(0, 255, 198, 0.06);
+      }
+
+      /* Custom orders highlight */
+      .custom {
+        margin-top: 14px;
+        padding: 12px;
+        border-radius: 10px;
+        background: linear-gradient(
+          90deg,
+          rgba(0, 255, 198, 0.03),
+          rgba(0, 255, 198, 0.01)
+        );
+        border: 1px solid rgba(0, 255, 198, 0.04);
+        color: #dffdf7;
+        font-weight: 600;
+      }
+
+      /* --- Disclaimer Specific Styles (Color adjustments for the box) --- */
+      .disclaimer-card {
+        margin-bottom: 40px;
+      }
+      .disclaimer-list li {
+          /* Differentiate default look from main skills, but keep hover the same */
+          border-left: 3px solid rgba(255, 255, 255, 0.08); 
+      }
+      .disclaimer-list li div {
+          color: var(--muted);
+      }
+      .disclaimer-list li .skill-dot {
+          background: var(--muted); 
+          box-shadow: none;
+      }
+      /* ----------------------------------------------------------------- */
+
+      /* --- Desktop Tip V2 Style (New Request 2) --- */
+      .desktop-tip-v2 {
+          text-align: center;
+          margin-top: 100px; 
+          margin-bottom: 50px;
+          padding: 15px; 
+          max-width: 900px;
+          margin-left: auto;
+          margin-right: auto;
+          background: rgba(255, 255, 255, 0.02);
+          border: 1px solid rgba(255, 255, 255, 0.04);
+          border-radius: 12px;
+      }
+      .desktop-tip-v2 p {
+          font-family: "Poppins", sans-serif;
+          font-size: 28px; 
+          font-weight: 800;
+          word-spacing: 2px;
+          line-height: 1.2;
+          /* Applying the gradient text effect from the main title (h2) */
+          color: transparent;
+          background: linear-gradient(90deg, var(--accent), #76fff0 50%, #bafef0);
+          -webkit-background-clip: text;
+          background-clip: text;
+          /*text-shadow: 0 0 10px rgba(0, 255, 198, 0.3); /* Subtle glow */
+      }
+      @media (max-width: 768px) {
+          .desktop-tip-v2 p {
+              font-size: 20px;
+          }
+          .desktop-tip-v2 {
+              margin-top: 30px;
+              margin-bottom: 30px;
+          }
+      }
+      /* -------------------------------------------- */
+
+
+      /* --- Carousel styles --- */
+      .carousel-wrap {
+        margin-top: 26px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .carousel {
+        width: 880px;
+        max-width: 92%;
+        height: 660px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.01),
+          rgba(255, 255, 255, 0.005)
+        );
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        overflow: hidden;
+        position: relative;
+        padding: 40px 70px;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+      }
+      .slides {
+        display: flex;
+        height: 100%;
+        transition: transform 0.6s cubic-bezier(0.22, 0.9, 0.26, 1);
+        align-items: center;
+      }
+      .slide {
+        min-width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+        flex-shrink: 0;
+      }
+      .slide .thumb {
+        width: 320px;
+        height: 420px;
+        border-radius: 8px;
+        overflow: hidden;
+        display: block;
+        transform: translateY(0);
+        transition: transform 0.35s ease, box-shadow 0.35s ease;
+        cursor: pointer;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+      }
+      .slide .thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+      }
+      .slide .thumb:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
+      }
+
+      /* Caption / title on center bottom */
+      .slide .meta {
+        color: #d6d6d6;
+        max-width: 580px;
+        text-align: center;
+        margin-top: 20px;
+      }
+      .slide .meta h4 {
+        margin-bottom: 6px;
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--accent);
+      }
+
+      /* FIXED: Nav buttons - Perfect circles placed at the container end */
+      .carousel-wrap .nav-btn {
+        position: absolute;
+        top: 50%;
+        /* The transform is split between the button size and the icon size */
+        transform: translateY(-50%);
+        width: 48px;
+        height: 48px;
+        border-radius: 50%; /* Perfect circle */
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        transition: all 0.22s ease;
+        z-index: 10;
+      }
+      .carousel-wrap .nav-btn:hover {
+        box-shadow: 0 12px 30px rgba(0, 255, 198, 0.06),
+          0 0 16px rgba(0, 255, 200, 0.303);
+        transform: translateY(-50%) scale(1.05);
+      }
+      /* Positioning at the container end */
+      .carousel-wrap .nav-btn.left {
+        left: 0;
+      }
+      .carousel-wrap .nav-btn.right {
+        right: 0;
+      }
+
+      /* Dots */
+      .dots {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 18px;
+        display: flex;
+        gap: 8px;
+      }
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.06);
+        cursor: pointer;
+      }
+      .dot.active {
+        background: var(--accent);
+        box-shadow: 0 8px 18px rgba(0, 255, 198, 0.08);
+      }
+
+      /* Modal for custom orders */
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 200;
+      }
+      .modal {
+        width: 420px;
+        max-width: 94%;
+        background: linear-gradient(180deg, #050507, #0b0b0b);
+        border-radius: 12px;
+        padding: 22px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+      }
+      .modal h3 {
+        color: var(--accent);
+        margin-bottom: 8px;
+      }
+      .modal p {
+        color: #d6d6d6;
+        font-size: 14px;
+        margin-bottom: 14px;
+      }
+
+      /* ======== NEW ORDER FORM STYLES (only modal area) ======== */
+      .order-form .row { display:flex; gap:10px; margin-bottom:10px; align-items:center; }
+      .order-form .col { flex:1; min-width:120px; display:flex; flex-direction:column; }
+      .order-form label { font-size:13px; color:#bfbfbf; margin-bottom:6px; font-weight:700; }
+      .order-form select, .order-form input[type="tel"], .order-form textarea {
+        padding:10px; border-radius:8px; background:transparent; border:1px solid rgba(255,255,255,0.06); color:#fff; font-size:14px;
+      }
+      .order-form textarea { min-height:80px; resize:vertical; }
+      .cost-box { display:flex; justify-content:space-between; align-items:center; gap:8px; margin-top:4px; }
+      .cost-box .label { color:#bfbfbf; font-size:13px; }
+      .cost-box .value { color:var(--accent); font-weight:800; font-size:18px; }
+      .modal .actions { display:flex; gap:8px; justify-content:flex-end; margin-top:12px; }
+      /* ======================================================== */
+
+      /* Footer styles */
+      footer {
+        padding: 30px 6%;
+        border-top: 1px solid rgba(255, 255, 255, 0.03);
+        margin-top: 50px;
+      }
+      .footer-inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      /* Floating quick contact styles */
+      .floating {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        z-index: 100;
+        display: flex;
+        gap: 10px;
+      }
+      .floating a {
+        width: 48px;
+        height: 48px;
+        border-radius: 10px;
+        display: grid;
+        place-items: center;
+        text-decoration: none;
+        font-weight: 700;
+        color: #041414;
+        font-size: 14px;
+        background: linear-gradient(90deg, #00ffc6, #39f2d1);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        transition: all 0.25s ease;
+      }
+      .floating a:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 30px rgba(0, 255, 198, 0.12);
+      }
+
+      /* responsive */
+      @media (max-width: 840px) {
+        .hero h2 {
+          font-size: 32px;
+        }
+        header {
+          padding: 14px 5%;
+        }
+        .split {
+          flex-direction: column;
+        }
+        .carousel {
+          padding: 20px 40px;
+          height: 500px;
+        }
+        .slide .thumb {
+          width: 260px;
+          height: 360px;
+        }
+        .floating {
+          right: 12px;
+          bottom: 12px;
+        }
+        .footer-inner {
+          justify-content: center;
+          text-align: center;
+        }
+        .footer-inner > p {
+          margin-bottom: 10px;
+        }
+      }
+      @media (max-width: 520px) {
+        .carousel {
+          padding: 20px;
+          height: 440px;
+        }
+        .slide .thumb {
+          width: 200px;
+          height: 300px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="logo-container">
+        <a href="#home" class="logo-img" aria-label="Home">
+          <img src="https://i.ibb.co/KxYv46dg/ScLogo2.png" alt="Shot.Cut Logo" />
+        </a>
+        <h1 class="logo-text">Shot.Cut</h1>
+      </div>
+      <nav>
+        <a href="#home">Home</a>
+        <a href="#skills">About</a>
+        <a href="#gallery">Work</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button class="hamburger" aria-label="Toggle menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <div class="socials">
+        <a
+          class="icon"
+          href="https://instagram.com/shot_.cut"
+          target="_blank"
+          rel="noopener"
+          title="Instagram"
+          aria-label="Instagram"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+            <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5z" stroke="#fff" stroke-opacity="0.9" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 8.7a3.3 3.3 0 1 0 0 6.6 3.3 3.3 0 0 0 0-6.6z" stroke="#fff" stroke-opacity="0.9" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M18.2 5.8h.01" stroke="#fff" stroke-opacity="0.9" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+
+        <a
+          class="icon"
+          href="https://facebook.com/YOUR_PROFILE"
+          target="_blank"
+          rel="noopener"
+          title="Facebook"
+          aria-label="Facebook"
+        >
+          <svg width="14" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+            <path d="M18 2h-3a4 4 0 0 0-4 4v2H8v3h3v7h3v-7h2.2l.8-3H14V6a1 1 0 0 1 1-1h3V2z" stroke="#fff" stroke-opacity="0.95" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+
+        <a
+          class="icon"
+          href="https://wa.me/918921464663"
+          target="_blank"
+          rel="noopener"
+          title="WhatsApp"
+          aria-label="WhatsApp"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
+            <path d="M20 13.5a6.5 6.5 0 1 0-12.1 4.4L4 20l2.1-3.9A6.5 6.5 0 0 0 20 13.5z" stroke="#fff" stroke-opacity="0.95" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M17.2 14.2c-.2 0-.8.2-1 .2s-.4 0-.7-.1c-.6-.2-1.4-.9-1.8-1.3-.5-.5-.9-.9-1.1-1.3-.2-.3 0-.5.1-.6.2-.3.2-.5.4-.8.1-.4 0-.6-.1-.9-.2-.3-1-1.1-1.3-1.5-.3-.4-.7-.3-1-.2-.2.1-.6.3-1 .8-.4.4-.7.9-.7 1.6 0 1 .6 2.5 1.4 3.6 0 0 1 1.1 3.2 1.9 1.1.4 2 .8 2.7.8.6 0 1-.3 1.3-.5.3-.3.6-.7.7-1.1.1-.3.1-.6 0-.8 0-.2-.3-.3-.9-.5-.5-.2-1-.4-1.3-.4z" stroke="#fff" stroke-opacity="0.95" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </header>
+
+    <section id="home" class="hero">
+      <div class="hero-inner">
+        <div class="badge">Premium Design • Templates • Mockups</div>
+        <h2>
+          Hi — I'm
+          <span
+            style="
+              color: transparent;
+              background: linear-gradient(90deg, #00ffc6, #e6fff9);
+              -webkit-background-clip: text;
+              background-clip: text;
+            "
+            >Saifan</span
+          ><br />The Creator of Shot.Cut
+        </h2>
+        <p class="lead">
+          I craft high-converting poster templates, mockups, and flyer designs —
+          optimized for online stores, Instagram, and print. I focus on clarity,
+          high resolution, and editable PSD/AI files with organized layers so
+          anyone can customize easily.
+        </p>
+
+        <div class="cta-row">
+          <a
+            class="btn btn-primary"
+            href="tel:+919746322923"
+            title="Call to order"
+          >
+            📞 Order Now
+          </a>
+
+          <a
+            class="btn btn-outline"
+            href="https://wa.me/918921464663"
+            target="_blank"
+            rel="noopener"
+            title="Chat on WhatsApp"
+          >
+            💬 Chat on WhatsApp
+          </a>
+
+          <a class="btn btn-outline" href="#skills">Disclaimer / About me</a>
+        </div>
+
+        <div style="text-align: center; margin-top: 14px;">
+          <a class="btn btn-outline" href="#gallery">⬇ &nbsp; Download templates</a>
+        </div>
+
+        <div class="desktop-tip-v2">
+            <p>
+                Enable Desktop Mode For Better Experience.
+            </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" class="section">
+      <div class="container">
+
+        <div class="card disclaimer-card">
+            <h3 style="color: var(--muted); margin-bottom: 18px;">⚠️ Important Disclaimer</h3>
+            <ul class="skills-list disclaimer-list">
+                <li>
+                    <div class="skill-dot"></div>
+                    <div>All design samples are for demonstration only and may be subject to third-party copyright.</div>
+                </li>
+                <li>
+                    <div class="skill-dot"></div>
+                    <div>Prices for custom work depend on Complexity, Quality, & Topics.</div>
+                </li>
+                <li>
+                    <div class="skill-dot"></div>
+                    <div>Template compatibility is primarily guaranteed for the latest Adobe software (PSD/AI).</div>
+                </li>
+                <li>
+                    <div class="skill-dot"></div>
+                    <div>All sales of digital products are final and non-refundable once downloaded.</div>
+                </li>
+                <li>
+                    <div class="skill-dot"></div>
+                    <div>Templates bought are only for your personal use, do not resell or redistribute.</div>
+                </li>
+            </ul>
+        </div>
+        <div class="split">
+          <div class="left card">
+            <h3>About Me</h3>
+            <p class="about-text">
+              I'm <strong>Saifan</strong>, a digital creator who builds premium,
+              market-ready graphic assets: poster templates, mockups, flyers,
+              and social media packs. I combine visual strategy with design
+              tools to produce editable templates that sell — and I provide
+              files that are easy for your customers to customize.
+            </p>
+
+            <p class="about-text">
+              I specialize in delivering clean, layered PSD and vector AI files,
+              and I also create Canva-ready versions for fast customization. My
+              work is focused on modern aesthetics, correct print specs, and
+              on-trend visual language for marketplaces and social media stores.
+            </p>
+
+            <div class="custom">
+              Custom Orders: I accept bespoke requests — templates, posters,
+              flyers, and mockups tailored to your brand. If you need a design
+              package or a fully editable mockup for product launches, I can
+              design it for you on request.
+            </div>
+
+            <div style="margin-top: 14px; display: flex; gap: 10px">
+              <a class="btn btn-primary" href="tel:+919746322923"
+                >Call / Order: +91-8921464663</a
+              >
+              <a
+                class="btn btn-primary"
+                href="https://wa.me/918921464663"
+                target="_blank"
+                rel="noopener"
+                >&nbsp; | Chat / WhatsApp | &nbsp;</a
+              >
+            </div>
+          </div>
+
+          <div class="right card">
+            <h3>Skills & Experience</h3>
+            <p style="color: var(--muted); margin-bottom: 12px">
+              What I do best — and ready to customize:
+            </p>
+            <ul class="skills-list">
+              <li>
+                <div class="skill-dot"></div>
+                <div>
+                  <strong>Poster Templates</strong>
+                  <div style="color: #bfbfbf; font-size: 13px">
+                    I sell High-resolution, print-ready & editable templates
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-dot"></div>
+                <div>
+                  <strong>Mockups</strong>
+                  <div style="color: #bfbfbf; font-size: 13px">
+                    Photorealistic PSD mockups with smart-objects
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-dot"></div>
+                <div>
+                  <strong>Flyer & Promo Designs</strong>
+                  <div style="color: #bfbfbf; font-size: 13px">
+                    Editable files for print & digital campaigns
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-dot"></div>
+                <div>
+                  <strong>Tools</strong>
+                  <div style="color: #bfbfbf; font-size: 13px">
+                    Adobe Photoshop • Illustrator • Canva
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="skill-dot"></div>
+                <div>
+                  <strong>Marketplace Sales</strong>
+                  <div style="color: #bfbfbf; font-size: 13px">
+                    Experience listing & selling on Gumroad, Payhip, &
+                    Ko-Fi.
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="gallery" class="section">
+      <div class="container">
+        <h3 style="color: var(--accent); margin-bottom: 18px; font-size: 26px">
+          Want Editable Templates & Mockups?
+        </h3>
+        <p style="color: #bfbfbf; margin-bottom: 18px">
+          There are different types of templates. Choose your type and click on image.
+          [Note: Now this page Dosen't Has Many Templates, Soon More Templates will be Added.].
+        </p>
+
+        <div class="carousel-wrap">
+          <div class="carousel" aria-roledescription="carousel">
+            <button class="nav-btn left" aria-label="Previous">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M15 18l-6-6 6-6"
+                  stroke="#fff"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+
+            <div class="slides" id="slides">
+              <div class="slide" data-link="product1.html">
+                <a
+                  class="thumb"
+                  href="product1.html"
+                  data-link="product1.html"
+                  title="Food Menu templates"
+                >
+                  <img
+                    src="https://i.ibb.co/CKfJwRRJ/Untitled-1.jpg"
+                    alt="Food Menu"
+                    draggable="false"
+                  />
+                </a>
+                <div class="meta">
+                  <h4>Product Poster / Flyer Templates</h4>
+                  <div style="color: #bfbfbf; font-size: 16px; font-weight: 500;">
+                    Editable Templates for Products Launch/Offer <br> Like Shoes, Clothes, Gadgets etc.
+                  </div>
+                </div>
+              </div>
+
+              <div class="slide" data-link="/work/book-mockup.html">
+                <a
+                  class="thumb"
+                  href="/work/book-mockup.html"
+                  data-link="/work/book-mockup.html"
+                  title="Book Mockup"
+                >
+                  <img
+                    src="https://i.ibb.co/KxqM9n1M/tangy-chicken.png"
+                    alt="Book Mockup"
+                    draggable="false"
+                  />
+                </a>
+                <div class="meta">
+                  <h4>Food Poster / Flyer Templates</h4>
+                  <div style="color: #bfbfbf; font-size: 16px; font-weight: 500;">
+                    Editable Templates for Foods <br> Like Food Menu, Offer, New Item etc.
+                  </div>
+                </div>
+              </div>
+
+              <div class="slide" data-link="/work/event-flyer.html">
+                <a
+                  class="thumb"
+                  href="/work/event-flyer.html"
+                  data-link="/work/event-flyer.html"
+                  title="Event Flyer Pack"
+                >
+                  <img
+                    src="https://i.ibb.co/rGc13MnZ/shawarma.png"
+                    alt="Event Flyer"
+                    draggable="false"
+                  />
+                </a>
+                <div class="meta">
+                  <h4>Events Poster / Flyer Templates</h4>
+                  <div style="color: #bfbfbf; font-size: 16px; font-weight: 500;">
+                    Editable Flyer/Poster Template For <br> Seasonal Events
+                  </div>
+                </div>
+              </div>
+
+              <div class="slide" data-link="/work/social-pack.html">
+                <a
+                  class="thumb"
+                  href="/work/social-pack.html"
+                  data-link="/work/social-pack.html"
+                  title="Social Pack"
+                >
+                  <img
+                    src="https://i.ibb.co/5dVHH2m/noodle.png"
+                    alt="Social Pack"
+                    draggable="false"
+                  />
+                </a>
+                <div class="meta">
+                  <h4>Educations & Travels Posters / Flyers.</h4>
+                  <div style="color: #bfbfbf; font-size: 16px; font-weight: 500;">
+                    Posters For Education Like Admission, Quiz etc. <br> Also for Travels Offer, Vacation trip etc.
+                  </div>
+                </div>
+              </div>
+
+              <div class="slide" data-custom="true">
+                <a class="thumb" href="#" id="openCustom" title="Custom Orders">
+                  <img
+                    src="https://i.ibb.co/TD4fkqCF/My-Eid-No-Wtr-Mrk.png"
+                    alt="Custom Orders"
+                    draggable="false"
+                  />
+                </a>
+                <div class="meta">
+                  <h4>Click For Custom Order.</h4>
+                  <div style="color: #bfbfbf; font-size: 16px; font-weight: 500;">
+                    I also Accept custom requests. <br> Click to request a custom design.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button class="nav-btn right" aria-label="Next">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M9 6l6 6-6 6"
+                  stroke="#fff"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+
+            <div class="dots" id="dots" aria-hidden>
+              </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer id="contact">
+      <div class="footer-inner container">
+        <p>
+          © <strong>Saifan</strong> • Premium Design & Mockups •
+          <span style="color: var(--accent)"
+            >Ready-to-customize Templates</span
+          >
+        </p>
+
+        <div style="display: flex; gap: 10px; align-items: center">
+          <a
+            class="icon"
+            href="https://instagram.com/shot_.cut"
+            target="_blank"
+            rel="noopener"
+            aria-label="Instagram"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5z"
+                stroke="#fff"
+                stroke-opacity="0.9"
+                stroke-width="1.1"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M12 8.7a3.3 3.3 0 1 0 0 6.6 3.3 3.3 0 0 0 0-6.6z"
+                stroke="#fff"
+                stroke-opacity="0.9"
+                stroke-width="1.1"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </a>
+
+          <a
+            class="icon"
+            href="https://facebook.com/YOUR_PROFILE"
+            target="_blank"
+            rel="noopener"
+            aria-label="Facebook"
+          >
+            <svg width="14" height="18" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M18 2h-3a4 4 0 0 0-4 4v2H8v3h3v7h3v-7h2.2l.8-3H14V6a1 1 0 0 1 1-1h3V2z"
+                stroke="#fff"
+                stroke-opacity="0.95"
+                stroke-width="1.1"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </a>
+
+          <a
+            class="icon"
+            href="https://wa.me/918921464663"
+            target="_blank"
+            rel="noopener"
+            aria-label="WhatsApp"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M21 12.1A9 9 0 1 0 11.9 3l-1 .3L6 13l1.6 3.8.2-.8A9 9 0 0 0 21 12.1z"
+                stroke="#fff"
+                stroke-opacity="0.95"
+                stroke-width="1"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </a>
+
+          <a class="icon" href="tel:+919746322923" aria-label="Phone">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.86 19.86 0 0 1 2.09 4.18 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.72c.12 1.21.5 2.39 1.12 3.5a2 2 0 0 1-.45 2.11L9.91 11.09a16 16 0 0 0 6 6l1.76-1.76a2 2 0 0 1 2.11-.45c1.11.62 2.29 1 3.5 1.12A2 2 0 0 1 22 16.92z"
+                stroke="#fff"
+                stroke-opacity="0.95"
+                stroke-width="1"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <div class="floating" aria-hidden>
+      <a
+        href="https://wa.me/918921464663"
+        target="_blank"
+        rel="noopener"
+        title="WhatsApp"
+        >WA</a
+      >
+      <a href="tel:+919746322923" title="Call">Call</a>
+    </div>
+
+    <!-- =============== REPLACED: Custom Order Modal (only this block changed) =============== -->
+    <div class="modal-backdrop" id="modalBackdrop">
+      <div
+        class="modal order-form"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modalTitle"
+      >
+        <h3 id="modalTitle">Custom Order</h3>
+        <p>
+          Choose what you need, select quality, describe your request and add a phone number. Cost updates automatically.
+        </p>
+
+        <!-- Row 1: Product type + Quality -->
+        <div class="row">
+          <div class="col">
+            <label for="productType">What do you need?</label>
+            <select id="productType" aria-label="Product type">
+              <option value="Poster">Poster</option>
+              <option value="Flyer">Flyer</option>
+              <option value="Editable Template">Editable Template</option>
+            </select>
+          </div>
+
+          <div class="col">
+            <label for="quality">Quality</label>
+            <select id="quality" aria-label="Quality">
+              <option value="Basic">Basic</option>
+              <option value="Standard">Standard</option>
+              <option value="Premium">Premium</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Row 2: Description -->
+        <div class="row">
+          <div class="col" style="flex:1">
+            <label for="description">Description</label>
+            <textarea id="description" placeholder="Sizes, text, colours, references..."></textarea>
+          </div>
+        </div>
+
+        <!-- Row 3: Additional -->
+        <div class="row">
+          <div class="col" style="flex:1">
+            <label for="additional">Additional information (optional)</label>
+            <textarea id="additional" placeholder="Extra notes, deadline, source images links..."></textarea>
+          </div>
+        </div>
+
+        <!-- Row 4: Phone + Cost -->
+        <div class="row">
+          <div class="col">
+            <label for="phone">Phone number</label>
+            <input id="phone" type="tel" placeholder="+919XXXXXXXXX" />
+          </div>
+
+          <div class="col" style="max-width:140px;">
+            <label>Estimated cost</label>
+            <div class="cost-box">
+              <div class="label">Price</div>
+              <div class="value" id="cost">$4</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-outline" id="orderCancel">Cancel</button>
+          <button class="btn btn-primary" id="orderSubmit">Place order</button>
+        </div>
+      </div>
+    </div>
+    <!-- =============== END replaced block =============== -->
+
+    <script>
+      // --- Carousel logic (unchanged) ---
+      const slidesEl = document.getElementById("slides");
+      const slides = Array.from(document.querySelectorAll(".slide"));
+      const dotsEl = document.getElementById("dots");
+      const leftBtn = document.querySelector(".nav-btn.left");
+      const rightBtn = document.querySelector(".nav-btn.right");
+      let idx = 0;
+
+      // build dots
+      slides.forEach((s, i) => {
+        const d = document.createElement("div");
+        d.className = "dot";
+        if (i === 0) d.classList.add("active");
+        d.addEventListener("click", () => goTo(i));
+        dotsEl.appendChild(d);
+      });
+      const dots = Array.from(document.querySelectorAll(".dot"));
+
+      function update() {
+        slidesEl.style.transform = `translateX(-${idx * 100}%)`;
+        dots.forEach((d, i) => d.classList.toggle("active", i === idx));
+      }
+
+      // FIXED: Added document.activeElement.blur()
+      function prev() {
+        idx = (idx - 1 + slides.length) % slides.length;
+        update();
+        if (document.activeElement) document.activeElement.blur();
+      }
+
+      // FIXED: Added document.activeElement.blur()
+      function next() {
+        idx = (idx + 1) % slides.length;
+        update();
+        if (document.activeElement) document.activeElement.blur();
+      }
+
+      function goTo(i) {
+        idx = i;
+        update();
+      }
+
+      leftBtn.addEventListener("click", prev);
+      rightBtn.addEventListener("click", next);
+
+      // keyboard support
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowLeft") prev();
+        if (e.key === "ArrowRight") next();
+      });
+
+      // swipe support for touch
+      let startX = null;
+      slidesEl.addEventListener("touchstart", (e) => {
+        startX = e.touches[0].clientX;
+      });
+      slidesEl.addEventListener("touchend", (e) => {
+        if (startX === null) return;
+        const dx = e.changedTouches[0].clientX - startX;
+        if (dx > 40) prev();
+        else if (dx < -40) next();
+        startX = null;
+      });
+
+      // Clicking on slide image redirects to its link (if provided) or opens custom modal
+      document.querySelectorAll(".slide").forEach((s) => {
+        const thumb = s.querySelector(".thumb");
+        thumb.addEventListener("click", (e) => {
+          e.preventDefault();
+          if (s.dataset.custom === "true") {
+            openModal();
+          } else {
+            const link = thumb.dataset.link || s.dataset.link || "#";
+            if (link && link !== "#") window.location.href = link;
+          }
+        });
+      });
+
+      // Prevent right-click and drag on carousel images
+      document.querySelectorAll(".carousel img").forEach((img) => {
+        img.addEventListener("contextmenu", (e) => e.preventDefault());
+        img.addEventListener("dragstart", (e) => e.preventDefault());
+      });
+
+      // --- NEW: Modal + Order handling (replaced block) ---
+      const modalBg = document.getElementById("modalBackdrop");
+      const openCustomBtn = document.getElementById("openCustom");
+      const orderCancel = document.getElementById("orderCancel");
+      const orderSubmit = document.getElementById("orderSubmit");
+      const productTypeEl = document.getElementById("productType");
+      const qualityEl = document.getElementById("quality");
+      const descriptionEl = document.getElementById("description");
+      const additionalEl = document.getElementById("additional");
+      const phoneEl = document.getElementById("phone");
+      const costEl = document.getElementById("cost");
+
+      // price mapping
+      const priceByQuality = { Basic: 4, Standard: 8, Premium: 12 };
+
+      function computeCost() {
+        const q = qualityEl.value;
+        const price = priceByQuality[q] || 0;
+        costEl.textContent = `$${price}`;
+        return price;
+      }
+
+      function openModal() {
+        modalBg.style.display = "flex";
+        setTimeout(() => descriptionEl.focus(), 80);
+        computeCost();
+      }
+      function closeModal() {
+        modalBg.style.display = "none";
+      }
+
+      // attach events
+      orderCancel.addEventListener("click", closeModal);
+      modalBg.addEventListener("click", (e) => {
+        if (e.target === modalBg) closeModal();
+      });
+
+      // live cost update
+      qualityEl.addEventListener("change", computeCost);
+
+      // Save order to localStorage AND open WhatsApp prefilled
+      orderSubmit.addEventListener("click", () => {
+        const productType = productTypeEl.value;
+        const quality = qualityEl.value;
+        const description = descriptionEl.value.trim();
+        const additional = additionalEl.value.trim();
+        const phone = phoneEl.value.trim();
+        const cost = computeCost();
+
+        if (!phone) {
+          alert("Please enter a phone number to place the order.");
+          phoneEl.focus();
+          return;
+        }
+
+        // order object
+        const order = {
+          id: "ord_" + Date.now(),
+          createdAt: new Date().toISOString(),
+          productType,
+          quality,
+          description,
+          additional,
+          phone,
+          cost,
+          status: "new"
+        };
+
+        // Save to localStorage (so you can later view from your admin page)
+        const key = "shotcut_orders";
+        const existing = JSON.parse(localStorage.getItem(key) || "[]");
+        existing.unshift(order);
+        localStorage.setItem(key, JSON.stringify(existing));
+
+        // close modal
+        closeModal();
+
+        // open WhatsApp to your business number with prefilled message
+        const message = encodeURIComponent(
+          `Hi Saifan, I've placed a custom order.\n\nType: ${productType}\nQuality: ${quality}\nCost: $${cost}\nPhone: ${phone}\n\nDescription:\n${description || "(none)"}\n\nAdditional:\n${additional || "(none)"}\n\nOrder ID: ${order.id}`
+        );
+
+        // Replace this number if you want a different WA receiver
+        const waLink = `https://wa.me/918921464663?text=${message}`;
+        window.open(waLink, "_blank");
+
+        // confirmation
+        alert("Order saved locally and WhatsApp opened. (Order ID: " + order.id + ")");
+      });
+
+      // Slight auto-play (optional)
+      // let autoplay = setInterval(next, 6000);
+      // document.querySelector('.carousel').addEventListener('mouseenter', () => clearInterval(autoplay));
+
+      // Accessibility: allow Enter on nav buttons
+      document
+        .querySelectorAll(".nav-btn")
+        .forEach((b) => b.setAttribute("tabindex", "0"));
+
+      // Reveal tiles on scroll (keep existing behaviour for other tiles)
+      function revealTiles() {
+        const tiles = document.querySelectorAll(".tile");
+        const trigger = window.innerHeight - 80;
+        tiles.forEach((t, i) => {
+          const top = t.getBoundingClientRect().top;
+          if (top < trigger) t.classList.add("active");
+        });
+      }
+      window.addEventListener("scroll", revealTiles);
+      window.addEventListener("load", () => {
+        revealTiles();
+        const ctas = document.querySelectorAll(".cta-row .btn");
+        ctas.forEach((b, i) =>
+          setTimeout(() => (b.style.transform = "translateY(0)"), 120 * i)
+        );
+      });
+
+      // Small accessibility note: allow keyboard focus on social icons
+      document
+        .querySelectorAll(".icon")
+        .forEach((ic) => ic.setAttribute("tabindex", "0"));
+
+      // Hamburger menu toggle
+      const hamburger = document.querySelector('.hamburger');
+      const nav = document.querySelector('nav');
+
+      hamburger.addEventListener('click', () => {
+        nav.classList.toggle('open');
+      });
+
+      // Close menu when clicking a nav link
+      document.querySelectorAll('nav a').forEach(link => {
+        link.addEventListener('click', () => {
+          nav.classList.remove('open');
+        });
+      });
+    </script>
+  </body>
+</html>
