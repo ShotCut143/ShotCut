@@ -255,6 +255,7 @@
       }
       .btn-primary {
         background: linear-gradient(90deg, #00ffc6, #39f2d1);
+        text-align: center;
         color: #041414;
       }
       .btn-primary:hover {
@@ -262,11 +263,14 @@
         box-shadow: 0 18px 40px rgba(0, 255, 198, 0.12);
       }
 
-      .str
-      {
+      .openCustomBtn {
+        width: auto;
+      }
+
+      .str {
         text-decoration: line-through;
       }
-      
+
       .btn-outline {
         background: transparent;
         color: var(--muted);
@@ -380,55 +384,54 @@
         margin-bottom: 40px;
       }
       .disclaimer-list li {
-          /* Differentiate default look from main skills, but keep hover the same */
-          border-left: 3px solid rgba(255, 255, 255, 0.08); 
+        /* Differentiate default look from main skills, but keep hover the same */
+        border-left: 3px solid rgba(255, 255, 255, 0.08);
       }
       .disclaimer-list li div {
-          color: var(--muted);
+        color: var(--muted);
       }
       .disclaimer-list li .skill-dot {
-          background: var(--muted); 
-          box-shadow: none;
+        background: var(--muted);
+        box-shadow: none;
       }
       /* ----------------------------------------------------------------- */
 
       /* --- Desktop Tip V2 Style (New Request 2) --- */
       .desktop-tip-v2 {
-          text-align: center;
-          margin-top: 100px; 
-          margin-bottom: 50px;
-          padding: 15px; 
-          max-width: 900px;
-          margin-left: auto;
-          margin-right: auto;
-          background: rgba(255, 255, 255, 0.02);
-          border: 1px solid rgba(255, 255, 255, 0.04);
-          border-radius: 12px;
+        text-align: center;
+        margin-top: 100px;
+        margin-bottom: 50px;
+        padding: 15px;
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        border-radius: 12px;
       }
       .desktop-tip-v2 p {
-          font-family: "Poppins", sans-serif;
-          font-size: 28px; 
-          font-weight: 800;
-          word-spacing: 2px;
-          line-height: 1.2;
-          /* Applying the gradient text effect from the main title (h2) */
-          color: transparent;
-          background: linear-gradient(90deg, var(--accent), #76fff0 50%, #bafef0);
-          -webkit-background-clip: text;
-          background-clip: text;
-          /*text-shadow: 0 0 10px rgba(0, 255, 198, 0.3); /* Subtle glow */
+        font-family: "Poppins", sans-serif;
+        font-size: 28px;
+        font-weight: 800;
+        word-spacing: 2px;
+        line-height: 1.2;
+        /* Applying the gradient text effect from the main title (h2) */
+        color: transparent;
+        background: linear-gradient(90deg, var(--accent), #76fff0 50%, #bafef0);
+        -webkit-background-clip: text;
+        background-clip: text;
+        /*text-shadow: 0 0 10px rgba(0, 255, 198, 0.3); /* Subtle glow */
       }
       @media (max-width: 768px) {
-          .desktop-tip-v2 p {
-              font-size: 20px;
-          }
-          .desktop-tip-v2 {
-              margin-top: 30px;
-              margin-bottom: 30px;
-          }
+        .desktop-tip-v2 p {
+          font-size: 20px;
+        }
+        .desktop-tip-v2 {
+          margin-top: 30px;
+          margin-bottom: 30px;
+        }
       }
       /* -------------------------------------------- */
-
 
       /* --- Carousel styles --- */
       .carousel-wrap {
@@ -570,8 +573,10 @@
         z-index: 200;
       }
       .modal {
-        width: 420px;
-        max-width: 94%;
+        width: 520px !important;
+        max-width: 95%;
+        max-height: 90vh; /* prevent top overflow */
+        overflow-y: auto;
         background: linear-gradient(180deg, #050507, #0b0b0b);
         border-radius: 12px;
         padding: 22px;
@@ -589,17 +594,71 @@
       }
 
       /* ======== NEW ORDER FORM STYLES (only modal area) ======== */
-      .order-form .row { display:flex; gap:10px; margin-bottom:10px; align-items:center; }
-      .order-form .col { flex:1; min-width:120px; display:flex; flex-direction:column; }
-      .order-form label { font-size:13px; color:#bfbfbf; margin-bottom:6px; font-weight:700; }
-      .order-form select, .order-form input[type="tel"], .order-form textarea {
-        padding:10px; border-radius:8px; background:transparent; border:1px solid rgba(255,255,255,0.06); color:#fff; font-size:14px;
+      .order-form .row {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+        align-items: center;
       }
-      .order-form textarea { min-height:80px; resize:vertical; }
-      .cost-box { display:flex; justify-content:space-between; align-items:center; gap:8px; margin-top:4px; }
-      .cost-box .label { color:#bfbfbf; font-size:13px; }
-      .cost-box .value { color:var(--accent); font-weight:800; font-size:18px; }
-      .modal .actions { display:flex; gap:8px; justify-content:flex-end; margin-top:12px; }
+      .order-form .col {
+        flex: 1;
+        min-width: 120px;
+        display: flex;
+        flex-direction: column;
+      }
+      .order-form label {
+        font-size: 13px;
+        color: #bfbfbf;
+        margin-bottom: 6px;
+        font-weight: 700;
+      }
+      .order-form select,
+      .order-form input[type="tel"],
+      .order-form input[type="text"],
+      .order-form input[type="email"],
+      .order-form textarea {
+        padding: 10px;
+        border-radius: 8px;
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        color: #fff;
+        font-size: 14px;
+      }
+      .order-form textarea {
+        min-height: 80px;
+        resize: vertical;
+      }
+      .cost-box {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+        margin-top: 4px;
+      }
+      .cost-box .label {
+        color: #bfbfbf;
+        font-size: 13px;
+      }
+      .cost-box .value {
+        color: var(--accent);
+        font-weight: 800;
+        font-size: 18px;
+      }
+      .modal .actions {
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+        margin-top: 12px;
+      }
+      .order-success {
+        background: rgba(0, 255, 198, 0.06);
+        color: #c6ffeb;
+        padding: 8px 10px;
+        border-radius: 8px;
+        font-weight: 700;
+        margin-top: 8px;
+        display: none;
+      }
       /* ======================================================== */
 
       /* Footer styles */
@@ -693,7 +752,10 @@
     <header>
       <div class="logo-container">
         <a href="#home" class="logo-img" aria-label="Home">
-          <img src="https://i.ibb.co/KxYv46dg/ScLogo2.png" alt="Shot.Cut Logo" />
+          <img
+            src="https://i.ibb.co/KxYv46dg/ScLogo2.png"
+            alt="Shot.Cut Logo"
+          />
         </a>
         <h1 class="logo-text">Shot.Cut</h1>
       </div>
@@ -705,7 +767,13 @@
       </nav>
       <button class="hamburger" aria-label="Toggle menu">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path
+            d="M3 12h18M3 6h18M3 18h18"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
       </button>
 
@@ -718,10 +786,37 @@
           title="Instagram"
           aria-label="Instagram"
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
-            <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5z" stroke="#fff" stroke-opacity="0.9" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M12 8.7a3.3 3.3 0 1 0 0 6.6 3.3 3.3 0 0 0 0-6.6z" stroke="#fff" stroke-opacity="0.9" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M18.2 5.8h.01" stroke="#fff" stroke-opacity="0.9" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden
+          >
+            <path
+              d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5z"
+              stroke="#fff"
+              stroke-opacity="0.9"
+              stroke-width="1.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M12 8.7a3.3 3.3 0 1 0 0 6.6 3.3 3.3 0 0 0 0-6.6z"
+              stroke="#fff"
+              stroke-opacity="0.9"
+              stroke-width="1.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M18.2 5.8h.01"
+              stroke="#fff"
+              stroke-opacity="0.9"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
           </svg>
         </a>
 
@@ -733,24 +828,25 @@
           title="Facebook"
           aria-label="Facebook"
         >
-          <svg width="14" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
-            <path d="M18 2h-3a4 4 0 0 0-4 4v2H8v3h3v7h3v-7h2.2l.8-3H14V6a1 1 0 0 1 1-1h3V2z" stroke="#fff" stroke-opacity="0.95" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+          <svg
+            width="14"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden
+          >
+            <path
+              d="M18 2h-3a4 4 0 0 0-4 4v2H8v3h3v7h3v-7h2.2l.8-3H14V6a1 1 0 0 1 1-1h3V2z"
+              stroke="#fff"
+              stroke-opacity="0.95"
+              stroke-width="1.1"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
           </svg>
         </a>
 
-        <a
-          class="icon"
-          href="#"
-          target="_blank"
-          rel="noopener"
-          title="WhatsApp"
-          aria-label="WhatsApp"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
-            <path d="M20 13.5a6.5 6.5 0 1 0-12.1 4.4L4 20l2.1-3.9A6.5 6.5 0 0 0 20 13.5z" stroke="#fff" stroke-opacity="0.95" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M17.2 14.2c-.2 0-.8.2-1 .2s-.4 0-.7-.1c-.6-.2-1.4-.9-1.8-1.3-.5-.5-.9-.9-1.1-1.3-.2-.3 0-.5.1-.6.2-.3.2-.5.4-.8.1-.4 0-.6-.1-.9-.2-.3-1-1.1-1.3-1.5-.3-.4-.7-.3-1-.2-.2.1-.6.3-1 .8-.4.4-.7.9-.7 1.6 0 1 .6 2.5 1.4 3.6 0 0 1 1.1 3.2 1.9 1.1.4 2 .8 2.7.8.6 0 1-.3 1.3-.5.3-.3.6-.7.7-1.1.1-.3.1-.6 0-.8 0-.2-.3-.3-.9-.5-.5-.2-1-.4-1.3-.4z" stroke="#fff" stroke-opacity="0.95" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </a>
+        <!-- WhatsApp icon removed from header as requested -->
       </div>
     </header>
 
@@ -777,54 +873,65 @@
         </p>
 
         <div class="cta-row">
-          <a
-            class="btn btn-primary str"
-            href="#"
-            title="Call to order"
-          >
+          <a class="btn btn-primary str" href="#" title="Call to order">
             📞 Order Now
           </a>
-          
+
           <a class="btn btn-outline" href="#skills">Disclaimer / About me</a>
 
-          <a class="btn btn-outline" href="#gallery">⬇ &nbsp; Download templates</a>
+          <a class="btn btn-outline" href="#gallery"
+            >⬇ &nbsp; Download templates</a
+          >
         </div>
 
         <div class="desktop-tip-v2">
-            <p>
-                Enable Desktop Mode For Better Experience.
-            </p>
+          <p>Enable Desktop Mode For Better Experience.</p>
         </div>
       </div>
     </section>
 
     <section id="skills" class="section">
       <div class="container">
-
         <div class="card disclaimer-card">
-            <h3 style="color: var(--muted); margin-bottom: 18px;">⚠️ Important Disclaimer</h3>
-            <ul class="skills-list disclaimer-list">
-                <li>
-                    <div class="skill-dot"></div>
-                    <div>All design samples are for demonstration only and may be subject to third-party copyright.</div>
-                </li>
-                <li>
-                    <div class="skill-dot"></div>
-                    <div>Prices for custom work depend on Complexity, Quality, & Topics.</div>
-                </li>
-                <li>
-                    <div class="skill-dot"></div>
-                    <div>Template compatibility is primarily guaranteed for the latest Adobe software (PSD/AI).</div>
-                </li>
-                <li>
-                    <div class="skill-dot"></div>
-                    <div>All sales of digital products are final and non-refundable once downloaded.</div>
-                </li>
-                <li>
-                    <div class="skill-dot"></div>
-                    <div>Templates bought are only for your personal use, do not resell or redistribute.</div>
-                </li>
-            </ul>
+          <h3 style="color: var(--muted); margin-bottom: 18px">
+            ⚠️ Important Disclaimer
+          </h3>
+          <ul class="skills-list disclaimer-list">
+            <li>
+              <div class="skill-dot"></div>
+              <div>
+                All design samples are for demonstration only and may be subject
+                to third-party copyright.
+              </div>
+            </li>
+            <li>
+              <div class="skill-dot"></div>
+              <div>
+                Prices for custom work depend on Complexity, Quality, & Topics.
+              </div>
+            </li>
+            <li>
+              <div class="skill-dot"></div>
+              <div>
+                Template compatibility is primarily guaranteed for the latest
+                Adobe software (PSD/AI).
+              </div>
+            </li>
+            <li>
+              <div class="skill-dot"></div>
+              <div>
+                All sales of digital products are final and non-refundable once
+                downloaded.
+              </div>
+            </li>
+            <li>
+              <div class="skill-dot"></div>
+              <div>
+                Templates bought are only for your personal use, do not resell
+                or redistribute.
+              </div>
+            </li>
+          </ul>
         </div>
         <div class="split">
           <div class="left card">
@@ -852,16 +959,13 @@
             </div>
 
             <div style="margin-top: 14px; display: flex; gap: 10px">
-              <a class="btn btn-primary" href="tel:+919746322923"
-                >Call / Order: +91-8921464663</a
+              <!-- Replaced "Call" and "Chat" with single Custom Order button -->
+              <button
+                class="btn btn-primary openCustomBtn"
+                title="Custom Orders"
               >
-              <a
-                class="btn btn-primary"
-                href="https://wa.me/918921464663"
-                target="_blank"
-                rel="noopener"
-                >&nbsp; | Chat / WhatsApp | &nbsp;</a
-              >
+                Custom Order
+              </button>
             </div>
           </div>
 
@@ -912,7 +1016,7 @@
                 <div>
                   <strong>Marketplace Sales</strong>
                   <div style="color: #bfbfbf; font-size: 13px">
-                    Experience listing & selling on Gumroad, Payhip, &
+                    Experience listing & selling on Gumroad, Payhip, &amp;
                     Ko-Fi.
                   </div>
                 </div>
@@ -929,8 +1033,9 @@
           Want Editable Templates & Mockups?
         </h3>
         <p style="color: #bfbfbf; margin-bottom: 18px">
-          There are different types of templates. Choose your type and click on image.
-          [Note: Now this page Dosen't Has Many Templates, Soon More Templates will be Added.].
+          There are different types of templates. Choose your type and click on
+          image. [Note: Now this page Dosen't Has Many Templates, Soon More
+          Templates will be Added.].
         </p>
 
         <div class="carousel-wrap">
@@ -963,8 +1068,11 @@
                 </a>
                 <div class="meta">
                   <h4>Product Poster / Flyer Templates</h4>
-                  <div style="color: #bfbfbf; font-size: 16px; font-weight: 500;">
-                    Editable Templates for Products Launch/Offer <br> Like Shoes, Clothes, Gadgets etc.
+                  <div
+                    style="color: #bfbfbf; font-size: 16px; font-weight: 500"
+                  >
+                    Editable Templates for Products Launch/Offer <br />
+                    Like Shoes, Clothes, Gadgets etc.
                   </div>
                 </div>
               </div>
@@ -984,8 +1092,11 @@
                 </a>
                 <div class="meta">
                   <h4>Food Poster / Flyer Templates</h4>
-                  <div style="color: #bfbfbf; font-size: 16px; font-weight: 500;">
-                    Editable Templates for Foods <br> Like Food Menu, Offer, New Item etc.
+                  <div
+                    style="color: #bfbfbf; font-size: 16px; font-weight: 500"
+                  >
+                    Editable Templates for Foods <br />
+                    Like Food Menu, Offer, New Item etc.
                   </div>
                 </div>
               </div>
@@ -1005,8 +1116,11 @@
                 </a>
                 <div class="meta">
                   <h4>Events Poster / Flyer Templates</h4>
-                  <div style="color: #bfbfbf; font-size: 16px; font-weight: 500;">
-                    Editable Flyer/Poster Template For <br> Seasonal Events
+                  <div
+                    style="color: #bfbfbf; font-size: 16px; font-weight: 500"
+                  >
+                    Editable Flyer/Poster Template For <br />
+                    Seasonal Events
                   </div>
                 </div>
               </div>
@@ -1026,14 +1140,17 @@
                 </a>
                 <div class="meta">
                   <h4>Educations & Travels Posters / Flyers.</h4>
-                  <div style="color: #bfbfbf; font-size: 16px; font-weight: 500;">
-                    Posters For Education Like Admission, Quiz etc. <br> Also for Travels Offer, Vacation trip etc.
+                  <div
+                    style="color: #bfbfbf; font-size: 16px; font-weight: 500"
+                  >
+                    Posters For Education Like Admission, Quiz etc. <br />
+                    Also for Travels Offer, Vacation trip etc.
                   </div>
                 </div>
               </div>
 
               <div class="slide" data-custom="true">
-                <a class="thumb" href="#" id="openCustom" title="Custom Orders">
+                <a class="thumb openCustomBtn" href="#" title="Custom Orders">
                   <img
                     src="https://i.ibb.co/TD4fkqCF/My-Eid-No-Wtr-Mrk.png"
                     alt="Custom Orders"
@@ -1042,8 +1159,11 @@
                 </a>
                 <div class="meta">
                   <h4>Click For Custom Order.</h4>
-                  <div style="color: #bfbfbf; font-size: 16px; font-weight: 500;">
-                    I also Accept custom requests. <br> Click to request a custom design.
+                  <div
+                    style="color: #bfbfbf; font-size: 16px; font-weight: 500"
+                  >
+                    I also Accept custom requests. <br />
+                    Click to request a custom design.
                   </div>
                 </div>
               </div>
@@ -1060,8 +1180,7 @@
               </svg>
             </button>
 
-            <div class="dots" id="dots" aria-hidden>
-              </div>
+            <div class="dots" id="dots" aria-hidden></div>
           </div>
         </div>
       </div>
@@ -1071,9 +1190,7 @@
       <div class="footer-inner container">
         <p>
           © <strong>Saifan</strong> • Premium Design & Mockups •
-          <span style="color: var(--accent)"
-            >Ready-to-customize Templates</span
-          >
+          <span style="color: var(--accent)">Ready-to-customize Templates</span>
         </p>
 
         <div style="display: flex; gap: 10px; align-items: center">
@@ -1123,25 +1240,7 @@
             </svg>
           </a>
 
-          <a
-            class="icon"
-            href="https://wa.me/918921464663"
-            target="_blank"
-            rel="noopener"
-            aria-label="WhatsApp"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M21 12.1A9 9 0 1 0 11.9 3l-1 .3L6 13l1.6 3.8.2-.8A9 9 0 0 0 21 12.1z"
-                stroke="#fff"
-                stroke-opacity="0.95"
-                stroke-width="1"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </a>
-
+          <!-- WhatsApp link removed from footer as requested -->
           <a class="icon" href="tel:+919746322923" aria-label="Phone">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
               <path
@@ -1158,18 +1257,9 @@
       </div>
     </footer>
 
-    <div class="floating" aria-hidden>
-      <a
-        href="https://wa.me/918921464663"
-        target="_blank"
-        rel="noopener"
-        title="WhatsApp"
-        >WA</a
-      >
-      <a href="tel:+919746322923" title="Call">Call</a>
-    </div>
+    <!-- floating removed (call/whatsapp) as requested -->
 
-    <!-- =============== REPLACED: Custom Order Modal (only this block changed) =============== -->
+    <!-- =============== Custom Order Modal (shorter + checkbox added) =============== -->
     <div class="modal-backdrop" id="modalBackdrop">
       <div
         class="modal order-form"
@@ -1179,23 +1269,24 @@
       >
         <h3 id="modalTitle">Custom Order</h3>
         <p>
-          Choose what you need, select quality, describe your request and add a phone number. Cost updates automatically.
+          Choose what you need, select quality, describe your request and add a
+          phone number. Cost updates automatically. Currency selection is
+          required.
         </p>
 
-        <!-- Row 1: Product type + Quality -->
+        <!-- Row 1 -->
         <div class="row">
           <div class="col">
             <label for="productType">What do you need?</label>
-            <select id="productType" aria-label="Product type">
+            <select id="productType">
               <option value="Poster">Poster</option>
               <option value="Flyer">Flyer</option>
               <option value="Editable Template">Editable Template</option>
             </select>
           </div>
-
           <div class="col">
             <label for="quality">Quality</label>
-            <select id="quality" aria-label="Quality">
+            <select id="quality">
               <option value="Basic">Basic</option>
               <option value="Standard">Standard</option>
               <option value="Premium">Premium</option>
@@ -1203,30 +1294,83 @@
           </div>
         </div>
 
-        <!-- Row 2: Description -->
+        <!-- Topic (Title) -->
         <div class="row">
-          <div class="col" style="flex:1">
-            <label for="description">Description</label>
-            <textarea id="description" placeholder="Sizes, text, colours, references..."></textarea>
+          <div class="col">
+            <label for="title">Topic</label>
+            <textarea
+              id="title"
+              placeholder="Sizes, text, colours, references..."
+              required
+            ></textarea>
           </div>
         </div>
 
-        <!-- Row 3: Additional -->
+        <!-- Description info -->
         <div class="row">
-          <div class="col" style="flex:1">
-            <label for="additional">Additional information (optional)</label>
-            <textarea id="additional" placeholder="Extra notes, deadline, source images links..."></textarea>
+          <div class="col">
+            <label for="description">Description information</label>
+            <textarea
+              id="description"
+              placeholder="Extra notes, deadline, source images links..."
+              required
+            ></textarea>
           </div>
         </div>
 
-        <!-- Row 4: Phone + Cost -->
+        <!-- Email (NEW) -->
+        <div class="row">
+          <div class="col">
+            <label for="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              placeholder="example123@gmail.com"
+              required
+            />
+            <div style="color: #bfbfbf; font-size: 13px; margin-top: 6px">
+              you will recieve an email once your order approved. Sometimes it may appear in spam/junk folder.
+            </div>
+          </div>
+        </div>
+
+        <!-- Instagram -->
+        <div class="row">
+          <div class="col">
+            <label for="instagram">Instagram ID</label>
+            <input
+              id="instagram"
+              type="text"
+              placeholder="@yourhandle"
+              required
+            />
+          </div>
+        </div>
+
+        <!-- Phone + WhatsApp -->
         <div class="row">
           <div class="col">
             <label for="phone">Phone number</label>
-            <input id="phone" type="tel" placeholder="+919XXXXXXXXX" />
+            <input id="phone" type="tel" placeholder="+919XXXXXXXXX" required />
           </div>
+          <div class="col">
+            <label for="whatsapp">WhatsApp number (optional)</label>
+            <input id="whatsapp" type="tel" placeholder="+919XXXXXXXXX" />
+          </div>
+        </div>
 
-          <div class="col" style="max-width:140px;">
+        <!-- Currency + Price -->
+        <div class="row">
+          <div class="col">
+            <label for="currency">Currency (required)</label>
+            <select id="currency" required>
+              <option value="">Select currency</option>
+              <option value="USD" selected>USD — $</option>
+              <option value="INR">INR — ₹</option>
+              <option value="EUR">EUR — €</option>
+            </select>
+          </div>
+          <div class="col" style="max-width: 140px">
             <label>Estimated cost</label>
             <div class="cost-box">
               <div class="label">Price</div>
@@ -1235,16 +1379,54 @@
           </div>
         </div>
 
+        <!-- Important note -->
+        <div style="margin-top: 10px; color: #d6d6d6; font-size: 13px">
+          <strong>Note:</strong> You Need to follow me through
+          <a
+            href="https://instagram.com/shot_.cut"
+            target="_blank"
+            rel="noopener"
+            style="color: var(--accent); text-decoration: underline"
+          >
+            Instagram
+          </a>
+          to get your ordered item.
+        </div>
+
+        <!-- New checkbox -->
+        <div
+          style="margin-top: 8px; display: flex; align-items: center; gap: 8px"
+        >
+          <input
+            type="checkbox"
+            id="instaConfirm"
+            style="width: 16px; height: 16px; cursor: pointer"
+          />
+          <label
+            for="instaConfirm"
+            style="color: #cfcfcf; font-size: 14px; cursor: pointer"
+          >
+            I have followed you on Instagram
+          </label>
+        </div>
+
+        <div
+          id="orderSuccess"
+          class="order-success"
+          role="status"
+          aria-live="polite"
+        ></div>
+
         <div class="actions">
           <button class="btn btn-outline" id="orderCancel">Cancel</button>
           <button class="btn btn-primary" id="orderSubmit">Place order</button>
         </div>
       </div>
     </div>
-    <!-- =============== END replaced block =============== -->
+    <!-- =============== END updated modal =============== -->
 
     <script>
-      // --- Carousel logic (unchanged) ---
+      // --- Carousel logic (unchanged where possible) ---
       const slidesEl = document.getElementById("slides");
       const slides = Array.from(document.querySelectorAll(".slide"));
       const dotsEl = document.getElementById("dots");
@@ -1267,14 +1449,12 @@
         dots.forEach((d, i) => d.classList.toggle("active", i === idx));
       }
 
-      // FIXED: Added document.activeElement.blur()
       function prev() {
         idx = (idx - 1 + slides.length) % slides.length;
         update();
         if (document.activeElement) document.activeElement.blur();
       }
 
-      // FIXED: Added document.activeElement.blur()
       function next() {
         idx = (idx + 1) % slides.length;
         update();
@@ -1308,7 +1488,7 @@
         startX = null;
       });
 
-      // Clicking on slide image redirects to its link (if provided) or opens custom modal
+      // Clicking on slide image opens custom modal if custom
       document.querySelectorAll(".slide").forEach((s) => {
         const thumb = s.querySelector(".thumb");
         thumb.addEventListener("click", (e) => {
@@ -1328,35 +1508,60 @@
         img.addEventListener("dragstart", (e) => e.preventDefault());
       });
 
-      // --- NEW: Modal + Order handling (replaced block) ---
+      // --- Modal + Order handling (modified & fixed) ---
       const modalBg = document.getElementById("modalBackdrop");
-      const openCustomBtn = document.getElementById("openCustom");
       const orderCancel = document.getElementById("orderCancel");
       const orderSubmit = document.getElementById("orderSubmit");
       const productTypeEl = document.getElementById("productType");
       const qualityEl = document.getElementById("quality");
-      const descriptionEl = document.getElementById("description");
-      const additionalEl = document.getElementById("additional");
+      const titleEl = document.getElementById("title");
+      const descriptionEl = document.getElementById("description"); // FIXED selector
+      const emailEl = document.getElementById("email"); // NEW
       const phoneEl = document.getElementById("phone");
+      const whatsappEl = document.getElementById("whatsapp");
+      const instagramEl = document.getElementById("instagram");
       const costEl = document.getElementById("cost");
+      const currencyEl = document.getElementById("currency");
+      const orderSuccessEl = document.getElementById("orderSuccess");
 
-      // price mapping
+      // price mapping in USD base
       const priceByQuality = { Basic: 4, Standard: 8, Premium: 12 };
 
-      function computeCost() {
+      // simple static conversion rates (you can update later)
+      const conversion = {
+        USD: { rate: 1, symbol: "$", format: (v) => `$${v}` },
+        INR: { rate: 83, symbol: "₹", format: (v) => `₹${v}` },
+        EUR: { rate: 0.92, symbol: "€", format: (v) => `€${v}` },
+      };
+
+      function computeCostRaw() {
         const q = qualityEl.value;
-        const price = priceByQuality[q] || 0;
-        costEl.textContent = `$${price}`;
-        return price;
+        const priceUSD = priceByQuality[q] || 0;
+        return priceUSD;
+      }
+
+      function computeCost() {
+        const base = computeCostRaw(); // in USD
+        const cur = currencyEl.value || "USD";
+        const rate = conversion[cur] ? conversion[cur].rate : 1;
+        const displayVal = Math.round(base * rate * 100) / 100;
+        const formatted = conversion[cur]
+          ? conversion[cur].format(displayVal)
+          : `$${displayVal}`;
+        costEl.textContent = formatted;
+        return { value: displayVal, currency: cur, label: formatted };
       }
 
       function openModal() {
         modalBg.style.display = "flex";
-        setTimeout(() => descriptionEl.focus(), 80);
+        setTimeout(() => titleEl.focus(), 80);
         computeCost();
       }
       function closeModal() {
         modalBg.style.display = "none";
+        // reset success message
+        orderSuccessEl.style.display = "none";
+        orderSuccessEl.textContent = "";
       }
 
       // attach events
@@ -1367,55 +1572,98 @@
 
       // live cost update
       qualityEl.addEventListener("change", computeCost);
+      currencyEl.addEventListener("change", computeCost);
 
-      // Save order to localStorage AND open WhatsApp prefilled
+      // open modal from any .openCustomBtn
+      document.querySelectorAll(".openCustomBtn").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          openModal();
+        });
+      });
+
+      // Save order to localStorage — but DO NOT open WhatsApp (per request)
       orderSubmit.addEventListener("click", () => {
         const productType = productTypeEl.value;
         const quality = qualityEl.value;
+        const title = titleEl.value.trim();
         const description = descriptionEl.value.trim();
-        const additional = additionalEl.value.trim();
+        const email = emailEl.value.trim();
         const phone = phoneEl.value.trim();
-        const cost = computeCost();
+        const whatsapp = whatsappEl.value.trim();
+        const instagram = instagramEl.value.trim();
+        const instaConfirm = document.getElementById("instaConfirm");
+        const costInfo = computeCost();
+        const currency = costInfo.currency;
 
+        // Validation: Topic (title), description, email, phone required
+        if (!title) {
+          alert("Please add a Topic for your order.");
+          titleEl.focus();
+          return;
+        }
+        if (!description) {
+          alert("Please add a description for your order.");
+          descriptionEl.focus();
+          return;
+        }
+        if (!email) {
+          alert("Please enter your email so we can notify you.");
+          emailEl.focus();
+          return;
+        }
+        // basic email format check
+        if (!/^\S+@\S+\.\S+$/.test(email)) {
+          alert("Please enter a valid email address.");
+          emailEl.focus();
+          return;
+        }
         if (!phone) {
           alert("Please enter a phone number to place the order.");
           phoneEl.focus();
           return;
         }
+        if (!currency) {
+          alert("Please select a currency.");
+          currencyEl.focus();
+          return;
+        }
+        if (!instaConfirm.checked) {
+          alert(
+            "You must confirm that you followed on Instagram before placing the order."
+          );
+          instaConfirm.focus();
+          return;
+        }
 
-        // order object
         const order = {
           id: "ord_" + Date.now(),
           createdAt: new Date().toISOString(),
           productType,
           quality,
+          title,
           description,
-          additional,
+          email,
           phone,
-          cost,
-          status: "new"
+          whatsapp: whatsapp || "",
+          instagram: instagram || "",
+          cost: costInfo.value,
+          costLabel: costInfo.label,
+          currency,
+          status: "new",
         };
 
-        // Save to localStorage (so you can later view from your admin page)
         const key = "shotcut_orders";
         const existing = JSON.parse(localStorage.getItem(key) || "[]");
         existing.unshift(order);
         localStorage.setItem(key, JSON.stringify(existing));
 
-        // close modal
-        closeModal();
+        orderSuccessEl.style.display = "block";
+        orderSuccessEl.textContent = `Order Successfully placed. Order Id (${order.id}).`;
 
-        // open WhatsApp to your business number with prefilled message
-        const message = encodeURIComponent(
-          `Hi Saifan, I've placed a custom order.\n\nType: ${productType}\nQuality: ${quality}\nCost: $${cost}\nPhone: ${phone}\n\nDescription:\n${description || "(none)"}\n\nAdditional:\n${additional || "(none)"}\n\nOrder ID: ${order.id}`
-        );
-
-        // Replace this number if you want a different WA receiver
-        const waLink = `https://wa.me/918921464663?text=${message}`;
-        window.open(waLink, "_blank");
-
-        // confirmation
-        alert("Order saved locally and WhatsApp opened. (Order ID: " + order.id + ")");
+        setTimeout(() => {
+          closeModal();
+        }, 2500);
       });
 
       // Slight auto-play (optional)
@@ -1451,23 +1699,19 @@
         .forEach((ic) => ic.setAttribute("tabindex", "0"));
 
       // Hamburger menu toggle
-      const hamburger = document.querySelector('.hamburger');
-      const nav = document.querySelector('nav');
+      const hamburger = document.querySelector(".hamburger");
+      const nav = document.querySelector("nav");
 
-      hamburger.addEventListener('click', () => {
-        nav.classList.toggle('open');
+      hamburger.addEventListener("click", () => {
+        nav.classList.toggle("open");
       });
 
       // Close menu when clicking a nav link
-      document.querySelectorAll('nav a').forEach(link => {
-        link.addEventListener('click', () => {
-          nav.classList.remove('open');
+      document.querySelectorAll("nav a").forEach((link) => {
+        link.addEventListener("click", () => {
+          nav.classList.remove("open");
         });
       });
     </script>
   </body>
 </html>
-
-
-
-
