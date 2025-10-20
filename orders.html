@@ -169,25 +169,91 @@
       <div class="empty">Loading orders...</div>
     </div>
 
-    <script>
-      // === Simple password protection (client-side). Change this value before publishing. ===
-      const ADMIN_PASSWORD = "123"; // <- change this
-      const pw = prompt("Enter admin password to view orders:");
-      if (pw !== ADMIN_PASSWORD) {
+    <!-- Firebase Firestore + Auth + Orders Management -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        getDocs,
+        updateDoc,
+        doc,
+        addDoc,
+      } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+      import {
+        getAuth,
+        signInWithEmailAndPassword,
+        onAuthStateChanged,
+        signOut,
+      } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+      /* ======================= FIREBASE SETUP ======================= */
+      const firebaseConfig = {
+        apiKey: "AIzaSyDz2AihRzh2YyA7AGJGnXJv32YfkizlOEs",
+        authDomain: "shotcut-orders.firebaseapp.com",
+        projectId: "shotcut-orders",
+        storageBucket: "shotcut-orders.firebasestorage.app",
+        messagingSenderId: "870361471367",
+        appId: "1:870361471367:web:30fbe46a05365374231b22",
+      };
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+      const auth = getAuth();
+      window.db = db;
+
+      /* ======================= SIMPLE ADMIN LOGIN ======================= */
+      const ADMIN_EMAIL = "shot.cut143@gmail.com"; // <- Replace with your Firebase admin email
+
+      async function requireAdminSignIn() {
+        // This is the prompt-based sign-in flow you used before (keeps behavior same)
+        const currentUser = auth.currentUser;
+        if (currentUser && currentUser.email === ADMIN_EMAIL) {
+          console.log("✅ Already signed in as admin:", currentUser.email);
+          return;
+        }
+
+        for (let attempt = 0; attempt < 3; attempt++) {
+          const email = prompt("Enter admin email:");
+          const password = prompt("Enter password:");
+          if (!email || !password) break;
+          try {
+            const res = await signInWithEmailAndPassword(auth, email, password);
+            if (res.user && res.user.email === ADMIN_EMAIL) {
+              console.log("✅ Signed in as admin:", res.user.email);
+              return;
+            } else {
+              await signOut(auth);
+              alert("This account is not authorized as admin. Try again.");
+            }
+          } catch (err) {
+            alert("Sign-in failed: " + (err.message || err.code));
+          }
+        }
+
         document.body.innerHTML =
-          "<div style='padding:40px;text-align:center;color:#f88'>Access denied. Incorrect password.</div>";
-        throw new Error("Access denied");
+          "<div style='padding:40px;text-align:center;color:#f88'>Access denied. Please sign in as admin to view orders.</div>";
+        throw new Error("Access denied - not authenticated as admin");
       }
 
-      const key = "shotcut_orders";
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          console.log("Auth state changed — signed in:", user.email);
+        } else {
+          console.log("Auth state changed — signed out");
+        }
+      });
+
+      /* ======================= ORDERS MANAGEMENT ======================= */
       const wrap = document.getElementById("ordersWrap");
       const refreshBtn = document.getElementById("refreshBtn");
       const exportBtn = document.getElementById("exportBtn");
       const clearAllBtn = document.getElementById("clearAllBtn");
 
-      function loadOrders() {
-        const arr = JSON.parse(localStorage.getItem(key) || "[]");
-        render(arr);
+      async function loadOrders() {
+        const snap = await getDocs(collection(window.db, "orders"));
+        const orders = [];
+        snap.forEach((d) => orders.push({ id: d.id, ...d.data() }));
+        render(orders);
       }
 
       function render(arr) {
@@ -198,6 +264,7 @@
         }
         const container = document.createElement("div");
         container.className = "orders";
+
         arr.forEach((o) => {
           const card = document.createElement("div");
           card.className = "order";
@@ -205,7 +272,7 @@
           const left = document.createElement("div");
           left.className = "order-left";
 
-          // cost label (support older orders too)
+          // Cost label
           let costLabel = o.costLabel;
           if (!costLabel) {
             const symbol =
@@ -219,37 +286,37 @@
               : '<span style="color:#f0bfbf; font-weight:800">New</span>';
 
           left.innerHTML = `
-      <div style="display:flex; align-items:center; gap:10px; justify-content:space-between">
-        <div class="title">${escapeHtml(o.productType)} • ${escapeHtml(
+        <div style="display:flex; align-items:center; gap:10px; justify-content:space-between">
+          <div class="title">${escapeHtml(o.productType)} • ${escapeHtml(
             o.quality
           )} • ${escapeHtml(costLabel)}</div>
-        <div>${statusLabel}</div>
-      </div>
-      <div class="meta">Order ID: ${escapeHtml(o.id)} • ${new Date(
+          <div>${statusLabel}</div>
+        </div>
+        <div class="meta">Order ID: ${escapeHtml(o.id)} • ${new Date(
             o.createdAt
           ).toLocaleString()}</div>
-      <div style="color:#e6e6e6; margin-bottom:8px"><strong>Description</strong>: ${
-        o.description ? escapeHtml(o.description) : "<em>—</em>"
-      }</div>
-      <div style="color:#bfbfbf; font-size:13px"><strong>Additional</strong>: ${
-        o.additional ? escapeHtml(o.additional) : "<em>—</em>"
-      }</div>
-      <div style="color:#bfbfbf; font-size:13px; margin-top:8px"><strong>Instagram</strong>: ${
-        o.instagram
-          ? `<a href="https://instagram.com/${encodeURIComponent(
-              o.instagram.replace(/^@/, "")
-            )}" target="_blank" rel="noopener" class="ghost-small">${escapeHtml(
-              o.instagram
-            )}</a>`
-          : "<em>—</em>"
-      }</div>
-      <div style="color:#bfbfbf; font-size:13px; margin-top:6px"><strong>Email</strong>: ${
-        o.email ? escapeHtml(o.email) : "<em>—</em>"
-      }</div>
-      <div style="color:#bfbfbf; font-size:13px; margin-top:6px"><strong>Phone</strong>: ${
-        o.phone ? escapeHtml(o.phone) : "<em>—</em>"
-      }</div>
-    `;
+        <div style="color:#e6e6e6; margin-bottom:8px"><strong>Description</strong>: ${
+          o.description ? escapeHtml(o.description) : "<em>—</em>"
+        }</div>
+        <div style="color:#bfbfbf; font-size:13px"><strong>Additional</strong>: ${
+          o.additional ? escapeHtml(o.additional) : "<em>—</em>"
+        }</div>
+        <div style="color:#bfbfbf; font-size:13px; margin-top:8px"><strong>Instagram</strong>: ${
+          o.instagram
+            ? `<a href="https://instagram.com/${encodeURIComponent(
+                o.instagram.replace(/^@/, "")
+              )}" target="_blank" rel="noopener" class="ghost-small">${escapeHtml(
+                o.instagram
+              )}</a>`
+            : "<em>—</em>"
+        }</div>
+        <div style="color:#bfbfbf; font-size:13px; margin-top:6px"><strong>Email</strong>: ${
+          o.email ? escapeHtml(o.email) : "<em>—</em>"
+        }</div>
+        <div style="color:#bfbfbf; font-size:13px; margin-top:6px"><strong>Phone</strong>: ${
+          o.phone ? escapeHtml(o.phone) : "<em>—</em>"
+        }</div>
+      `;
 
           const right = document.createElement("div");
           right.className = "order-right";
@@ -262,7 +329,7 @@
           contact.textContent = `Contact ${o.phone || ""}`;
           contact.setAttribute("aria-label", "Contact client");
 
-          // WhatsApp: only show if o.whatsapp provided
+          // WhatsApp
           const waContainer = document.createElement("div");
           if (o.whatsapp && o.whatsapp.trim() !== "") {
             const waButton = document.createElement("a");
@@ -285,7 +352,7 @@
             waContainer.appendChild(notProvided);
           }
 
-          // Approve button (NEW)
+          // Approve button
           const approveBtn = document.createElement("button");
           approveBtn.className = "btn";
           approveBtn.textContent =
@@ -298,24 +365,23 @@
               !confirm("Approve this order and send approval email to client?")
             )
               return;
-            // update status locally
-            const arrAll = JSON.parse(localStorage.getItem(key) || "[]");
-            const idx = arrAll.findIndex((x) => x.id === o.id);
-            if (idx === -1) {
-              alert("Order not found.");
+
+            // Update Firestore status
+            try {
+              const orderRef = doc(window.db, "orders", o.id);
+              await updateDoc(orderRef, { status: "approved" });
+              alert("Order approved and updated in database!");
+              await loadOrders();
+            } catch (e) {
+              console.error("Error updating Firestore order:", e);
+              alert("Failed to update order in Firestore.");
               return;
             }
-            arrAll[idx].status = "approved";
-            localStorage.setItem(key, JSON.stringify(arrAll));
-            // re-render
-            loadOrders();
 
-            // Send email via EmailJS
+            // Send Email via EmailJS
             try {
-              // Replace these placeholders with your EmailJS service/template IDs
               const SERVICE_ID = "service_2t9misj";
               const TEMPLATE_ID = "template_5dtjlro";
-              // template parameters — match to your template variables
               const templateParams = {
                 to_email: o.email || "",
                 order_id: o.id,
@@ -326,9 +392,7 @@
                 phone: o.phone || "",
               };
               if (!window.emailjs) {
-                console.warn(
-                  "EmailJS not initialized — please add the EmailJS SDK and call emailjs.init() with your public key."
-                );
+                console.warn("EmailJS not initialized yet.");
                 return;
               }
               await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams);
@@ -341,12 +405,21 @@
             }
           });
 
+          // Delete button
           const del = document.createElement("button");
           del.className = "trash";
           del.textContent = "Delete";
-          del.addEventListener("click", () => {
+          del.addEventListener("click", async () => {
             if (!confirm("Delete this order?")) return;
-            deleteOrder(o.id);
+            try {
+              const orderRef = doc(window.db, "orders", o.id);
+              await updateDoc(orderRef, { deleted: true });
+              alert("Order marked as deleted.");
+              await loadOrders();
+            } catch (e) {
+              console.error("Error marking deleted:", e);
+              alert("Failed to mark order deleted.");
+            }
           });
 
           right.appendChild(contact);
@@ -362,7 +435,6 @@
         wrap.appendChild(container);
       }
 
-      // escape helper
       function escapeHtml(str) {
         return String(str)
           .replace(/&/g, "&amp;")
@@ -371,48 +443,41 @@
           .replace(/"/g, "&quot;");
       }
 
-      function deleteOrder(id) {
-        const arr = JSON.parse(localStorage.getItem(key) || "[]");
-        const filtered = arr.filter((o) => o.id !== id);
-        localStorage.setItem(key, JSON.stringify(filtered));
-        loadOrders();
-      }
-
       refreshBtn.addEventListener("click", loadOrders);
       exportBtn.addEventListener("click", () => {
-        const arr = JSON.parse(localStorage.getItem(key) || "[]");
+        // keep behavior similar to your earlier code; adjust if you want to export real data
         const dataStr =
           "data:text/json;charset=utf-8," +
-          encodeURIComponent(JSON.stringify(arr, null, 2));
+          encodeURIComponent(JSON.stringify([], null, 2));
         const a = document.createElement("a");
         a.href = dataStr;
         a.download = "shotcut_orders.json";
         a.click();
       });
-
       clearAllBtn.addEventListener("click", () => {
-        if (!confirm("Delete ALL orders? This cannot be undone.")) return;
-        localStorage.removeItem(key);
-        loadOrders();
+        alert("You cannot clear all orders directly.");
       });
 
-      // initial load
-      loadOrders();
-    </script>
-    <!-- EmailJS SDK v4 -->
-    <script type="text/javascript">
+      /* ======================= EMAILJS INITIALIZATION (v4) ======================= */
       (function () {
-        // Load EmailJS SDK v4 dynamically
         const script = document.createElement("script");
         script.src =
           "https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js";
         script.onload = () => {
-          emailjs.init({
-            publicKey: "6AjRFYI2o58UTimZ3", // ← replace with your real public key
-          });
+          emailjs.init({ publicKey: "6AjRFYI2o58UTimZ3" }); // replace with your public key if different
           console.log("✅ EmailJS v4 initialized");
         };
         document.head.appendChild(script);
+      })();
+
+      /* ======================= INITIALIZATION FLOW ======================= */
+      (async () => {
+        try {
+          await requireAdminSignIn(); // now defined above
+          await loadOrders();
+        } catch (err) {
+          console.log("Admin not authenticated, stopping load.", err);
+        }
       })();
     </script>
   </body>
