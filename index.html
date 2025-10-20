@@ -1329,7 +1329,8 @@
               required
             />
             <div style="color: #bfbfbf; font-size: 13px; margin-top: 6px">
-              you will recieve an email once your order approved. Sometimes it may appear in spam/junk folder.
+              you will recieve an email once your order approved. Sometimes it
+              may appear in spam/junk folder.
             </div>
           </div>
         </div>
@@ -1653,11 +1654,6 @@
           status: "new",
         };
 
-        const key = "shotcut_orders";
-        const existing = JSON.parse(localStorage.getItem(key) || "[]");
-        existing.unshift(order);
-        localStorage.setItem(key, JSON.stringify(existing));
-
         orderSuccessEl.style.display = "block";
         orderSuccessEl.textContent = `Order Successfully placed. Order Id (${order.id}).`;
 
@@ -1712,6 +1708,42 @@
           nav.classList.remove("open");
         });
       });
+    </script>
+    <!-- Firebase v10+ (modular SDK) -->
+    <script type="module">
+      import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        addDoc,
+        getDocs,
+        updateDoc,
+        doc,
+      } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyDz2AihRzh2YyA7AGJGnXJv32YfkizlOEs",
+        authDomain: "shotcut-orders.firebaseapp.com",
+        projectId: "shotcut-orders",
+        storageBucket: "shotcut-orders.firebasestorage.app",
+        messagingSenderId: "870361471367",
+        appId: "1:870361471367:web:30fbe46a05365374231b22",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      // export globally (optional)
+      window.db = db;
+
+      try {
+        await addDoc(collection(window.db, "orders"), order);
+        orderSuccessEl.textContent = `Order successfully placed! Order ID: ${order.id}`;
+      } catch (e) {
+        console.error("Error saving order:", e);
+        alert("Failed to save order online. Please try again.");
+      }
     </script>
   </body>
 </html>
