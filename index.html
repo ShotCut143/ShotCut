@@ -1424,11 +1424,11 @@
         >
           <input
             type="checkbox"
-            id="instaConfirm"
+            id="disConfirm"
             style="width: 16px; height: 16px; cursor: pointer"
           />
           <label
-            for="instaConfirm"
+            for="disConfirm"
             style="
               color: #cfcfcf;
               font-size: 14px;
@@ -1465,7 +1465,7 @@
     <!-- =============== END updated modal =============== -->
 
     <script>
-      // --- Carousel logic (unchanged where possible) ---
+      // --- Carousel logic (unchanged) ---
       const slidesEl = document.getElementById("slides");
       const slides = Array.from(document.querySelectorAll(".slide"));
       const dotsEl = document.getElementById("dots");
@@ -1625,8 +1625,40 @@
         });
       });
 
-      // Save order to localStorage — but DO NOT open WhatsApp (per request)
-      orderSubmit.addEventListener("click", () => {
+      // --- Offline flush helper (tries to send locally-saved orders) ---
+      async function flushOfflineOrders() {
+        try {
+          const offlineKey = "shotcut_orders_offline";
+          const items = JSON.parse(localStorage.getItem(offlineKey) || "[]");
+          if (!items.length) return;
+          const sent = [];
+          for (const it of items) {
+            try {
+              // replace createdAt with server timestamp
+              const payload = { ...it };
+              if (window.FS && window.db) {
+                payload.createdAt = window.FS.serverTimestamp();
+                await window.FS.addDoc(
+                  window.FS.collection(window.db, "orders"),
+                  payload
+                );
+                sent.push(it);
+              }
+            } catch (err) {
+              console.warn("Failed to resend offline order:", err);
+            }
+          }
+          if (sent.length > 0) {
+            localStorage.removeItem("shotcut_orders_offline");
+            console.log(`Flushed ${sent.length} offline orders to Firestore.`);
+          }
+        } catch (e) {
+          console.warn("flushOfflineOrders error:", e);
+        }
+      }
+
+      // Save order to Firestore and show success (single listener; uses window.FS)
+      orderSubmit.addEventListener("click", async () => {
         const productType = productTypeEl.value;
         const quality = qualityEl.value;
         const title = titleEl.value.trim();
@@ -1636,10 +1668,11 @@
         const whatsapp = whatsappEl.value.trim();
         const instagram = instagramEl.value.trim();
         const instaConfirm = document.getElementById("instaConfirm");
+        const disConfirm = document.getElementById("disConfirm");
         const costInfo = computeCost();
         const currency = costInfo.currency;
 
-        // Validation: Topic (title), description, email, phone required
+        // Validation
         if (!title) {
           alert("Please add a Topic for your order.");
           titleEl.focus();
@@ -1655,7 +1688,6 @@
           emailEl.focus();
           return;
         }
-        // basic email format check
         if (!/^\S+@\S+\.\S+$/.test(email)) {
           alert("Please enter a valid email address.");
           emailEl.focus();
@@ -1666,11 +1698,6 @@
           phoneEl.focus();
           return;
         }
-        if (!currency) {
-          alert("Please select a currency.");
-          currencyEl.focus();
-          return;
-        }
         if (!instaConfirm.checked) {
           alert(
             "You must confirm that you followed on Instagram before placing the order."
@@ -1678,30 +1705,70 @@
           instaConfirm.focus();
           return;
         }
+        if (!disConfirm.checked) {
+          alert(
+            "You must confirm that you have read the disclaimer before placing the order."
+          );
+          disConfirm.focus();
+          return;
+        }
 
-        const order = {
-          id: "ord_" + Date.now(),
-          createdAt: new Date().toISOString(),
+        // Build payload
+        const payload = {
           productType,
           quality,
           title,
           description,
           email,
           phone,
-          whatsapp: whatsapp || "",
-          instagram: instagram || "",
+          whatsapp,
+          instagram,
           cost: costInfo.value,
           costLabel: costInfo.label,
           currency,
           status: "new",
+          createdAt: window.FS
+            ? window.FS.serverTimestamp()
+            : new Date().toISOString(),
         };
 
-        orderSuccessEl.style.display = "block";
-        orderSuccessEl.textContent = `Order Successfully placed. Order Id (${order.id}).`;
+        // Try to save to Firestore using the single initialized DB
+        try {
+          if (!window.FS || !window.db) {
+            throw new Error(
+              "Firebase not initialized (window.FS/window.db missing)."
+            );
+          }
+          await window.FS.addDoc(
+            window.FS.collection(window.db, "orders"),
+            payload
+          );
 
-        setTimeout(() => {
-          closeModal();
-        }, 2500);
+          orderSuccessEl.style.display = "block";
+          orderSuccessEl.textContent = `✅ Order successfully placed!`;
+          setTimeout(() => closeModal(), 2500);
+
+          // Try flushing any offline orders (non-blocking)
+          flushOfflineOrders().catch((e) => console.warn(e));
+        } catch (error) {
+          console.error("❌ Firestore error:", error);
+
+          // Offline/local fallback: store the order in localStorage for retry
+          try {
+            const offlineKey = "shotcut_orders_offline";
+            const arr = JSON.parse(localStorage.getItem(offlineKey) || "[]");
+            // store without serverTimestamp (use client-side createdAt)
+            arr.push({ ...payload, createdAtClient: new Date().toISOString() });
+            localStorage.setItem(offlineKey, JSON.stringify(arr));
+
+            orderSuccessEl.style.display = "block";
+            orderSuccessEl.textContent = `✅ Order saved locally (offline). We'll retry later.`;
+            setTimeout(() => closeModal(), 1800);
+          } catch (localErr) {
+            console.error("Failed to save offline fallback:", localErr);
+            alert("Failed to save order. Check console.");
+          }
+        }
       });
 
       // Slight auto-play (optional)
@@ -1729,6 +1796,11 @@
         ctas.forEach((b, i) =>
           setTimeout(() => (b.style.transform = "translateY(0)"), 120 * i)
         );
+
+        // Try to flush offline orders on page load as well (non-blocking)
+        if (window.FS && window.db) {
+          flushOfflineOrders().catch((e) => console.warn(e));
+        }
       });
 
       // Small accessibility note: allow keyboard focus on social icons
@@ -1750,14 +1822,62 @@
           nav.classList.remove("open");
         });
       });
+
+      // Export button behavior: fetch real orders from Firestore and save JSON
+      const exportBtn = document.getElementById("exportBtn");
+      if (exportBtn) {
+        exportBtn.addEventListener("click", async () => {
+          try {
+            if (!window.FS || !window.db) {
+              throw new Error(
+                "Firebase not initialized (window.FS/window.db missing)."
+              );
+            }
+            const snap = await window.FS.getDocs(
+              window.FS.collection(window.db, "orders")
+            );
+            const arr = [];
+            snap.forEach((d) => {
+              const data = d.data();
+              // convert server timestamp, if present
+              if (data.createdAt && data.createdAt.toDate) {
+                data.createdAt = data.createdAt.toDate().toISOString();
+              }
+              arr.push({ id: d.id, ...data });
+            });
+
+            const blob = new Blob([JSON.stringify(arr, null, 2)], {
+              type: "application/json",
+            });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `shotcut_orders_${new Date()
+              .toISOString()
+              .slice(0, 10)}.json`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+          } catch (err) {
+            console.error("Export failed:", err);
+            alert("Failed to export orders. Check console for details.");
+          }
+        });
+      }
     </script>
     <!-- Firebase v10+ (modular SDK) -->
+    <!-- FIREBASE INIT (paste once, before your main UI script that uses Firestore) -->
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
       import {
         getFirestore,
         collection,
         addDoc,
+        getDocs,
+        updateDoc,
+        doc,
+        serverTimestamp,
       } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
       const firebaseConfig = {
@@ -1772,43 +1892,18 @@
       const app = initializeApp(firebaseConfig);
       const db = getFirestore(app);
 
-      document
-        .getElementById("customOrderForm")
-        .addEventListener("submit", async (e) => {
-          e.preventDefault();
+      // Expose commonly used functions/values for non-module scripts
+      window.db = db;
+      window.FS = {
+        collection,
+        addDoc,
+        getDocs,
+        updateDoc,
+        doc,
+        serverTimestamp,
+      };
 
-          const topic = document.getElementById("topic").value.trim();
-          const description = document
-            .getElementById("description")
-            .value.trim();
-          const email = document.getElementById("email").value.trim();
-          const phone = document.getElementById("phone").value.trim();
-          const instagram = document.getElementById("insta").value.trim();
-          const quality = document.getElementById("quality").value.trim();
-          const cost = document.getElementById("cost").value.trim();
-          const currency = "USD";
-
-          try {
-            await addDoc(collection(db, "orders"), {
-              productType: topic,
-              description,
-              email,
-              phone,
-              instagram,
-              quality,
-              cost,
-              currency,
-              status: "new",
-              createdAt: Date.now(),
-            });
-
-            alert("✅ Your order has been placed successfully!");
-            e.target.reset();
-          } catch (error) {
-            console.error("Error adding order:", error);
-            alert("❌ Failed to submit order. Please try again.");
-          }
-        });
+      console.log("✅ Firebase initialized and helpers exposed on window.FS");
     </script>
   </body>
 </html>
