@@ -1715,54 +1715,67 @@
 
         // Build payload
         const payload = {
-          productType,
-          quality,
-          title,
-          description,
-          email,
-          phone,
-          whatsapp,
-          instagram,
-          cost: costInfo.value,
-          costLabel: costInfo.label,
-          currency,
+          productType: productType || "",
+          quality: quality || "",
+          title: title?.trim() || "", // ← keep using "title" (admin reads it)
+          description: description?.trim() || "",
+          email: email?.trim() || "",
+          phone: phone?.trim() || "",
+          whatsapp: whatsapp?.trim() || "",
+          instagram: instagram?.trim() || "",
+          cost: costInfo?.value || 0,
+          costLabel: costInfo?.label || "",
+          currency: currency || "USD",
           status: "new",
-          createdAt: window.FS
-            ? window.FS.serverTimestamp()
-            : new Date().toISOString(),
+          deleted: false,
+          // Always store as Firestore timestamp if available, else ISO string
+          createdAt:
+            window.FS && typeof window.FS.serverTimestamp === "function"
+              ? window.FS.serverTimestamp()
+              : new Date().toISOString(),
         };
 
-        // Try to save to Firestore using the single initialized DB
         try {
+          // --- Firestore save ---
           if (!window.FS || !window.db) {
             throw new Error(
               "Firebase not initialized (window.FS/window.db missing)."
             );
           }
-          await window.FS.addDoc(
+
+          const ref = await window.FS.addDoc(
             window.FS.collection(window.db, "orders"),
             payload
           );
 
+          console.log("✅ Order added to Firestore with ID:", ref.id);
           orderSuccessEl.style.display = "block";
-          orderSuccessEl.textContent = `✅ Order successfully placed!`;
+          orderSuccessEl.textContent = "✅ Order successfully placed!";
           setTimeout(() => closeModal(), 2500);
 
-          // Try flushing any offline orders (non-blocking)
-          flushOfflineOrders().catch((e) => console.warn(e));
+          // Non-blocking offline flush
+          if (typeof flushOfflineOrders === "function") {
+            flushOfflineOrders().catch((e) =>
+              console.warn("flushOfflineOrders:", e)
+            );
+          }
         } catch (error) {
           console.error("❌ Firestore error:", error);
 
-          // Offline/local fallback: store the order in localStorage for retry
+          // --- Offline/local fallback ---
           try {
             const offlineKey = "shotcut_orders_offline";
             const arr = JSON.parse(localStorage.getItem(offlineKey) || "[]");
-            // store without serverTimestamp (use client-side createdAt)
-            arr.push({ ...payload, createdAtClient: new Date().toISOString() });
+            arr.push({
+              ...payload,
+              createdAt: new Date().toISOString(), // fallback to local time
+              offline: true,
+            });
             localStorage.setItem(offlineKey, JSON.stringify(arr));
 
             orderSuccessEl.style.display = "block";
-            orderSuccessEl.textContent = `✅ Order saved locally (offline). We'll retry later.`;
+            orderSuccessEl.textContent =
+              "✅ Order saved locally (offline). We'll retry later.";
             setTimeout(() => closeModal(), 1800);
           } catch (localErr) {
             console.error("Failed to save offline fallback:", localErr);
