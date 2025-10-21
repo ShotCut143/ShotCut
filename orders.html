@@ -252,8 +252,25 @@
       async function loadOrders() {
         const snap = await getDocs(collection(window.db, "orders"));
         const orders = [];
-        snap.forEach((d) => orders.push({ id: d.id, ...d.data() }));
+        snap.forEach((d) => {
+          const data = d.data();
+          if (!data.deleted) orders.push({ id: d.id, ...data }); // skip deleted
+        });
         render(orders);
+      }
+
+      function formatCreatedAt(ts) {
+        if (!ts) return "<em>—</em>";
+        // Firestore Timestamp object (has toDate)
+        if (typeof ts === "object" && typeof ts.toDate === "function") {
+          return ts.toDate().toLocaleString();
+        }
+        // ISO string or number
+        try {
+          const d = new Date(ts);
+          if (!isNaN(d.getTime())) return d.toLocaleString();
+        } catch (e) {}
+        return "<em>Invalid Date</em>";
       }
 
       function render(arr) {
@@ -286,37 +303,37 @@
               : '<span style="color:#f0bfbf; font-weight:800">New</span>';
 
           left.innerHTML = `
-        <div style="display:flex; align-items:center; gap:10px; justify-content:space-between">
-          <div class="title">${escapeHtml(o.productType)} • ${escapeHtml(
-            o.quality
+  <div style="display:flex; align-items:center; gap:10px; justify-content:space-between">
+    <div class="title">${escapeHtml(o.productType || "")} • ${escapeHtml(
+            o.quality || ""
           )} • ${escapeHtml(costLabel)}</div>
-          <div>${statusLabel}</div>
-        </div>
-        <div class="meta">Order ID: ${escapeHtml(o.id)} • ${new Date(
+    <div>${statusLabel}</div>
+  </div>
+  <div class="meta">Order ID: ${escapeHtml(o.id)} • ${formatCreatedAt(
             o.createdAt
-          ).toLocaleString()}</div>
-        <div style="color:#e6e6e6; margin-bottom:8px"><strong>Description</strong>: ${
-          o.description ? escapeHtml(o.description) : "<em>—</em>"
-        }</div>
-        <div style="color:#bfbfbf; font-size:13px"><strong>Additional</strong>: ${
-          o.additional ? escapeHtml(o.additional) : "<em>—</em>"
-        }</div>
-        <div style="color:#bfbfbf; font-size:13px; margin-top:8px"><strong>Instagram</strong>: ${
+          )}</div>
+  <div style="color:#e6e6e6; margin-bottom:8px"><strong>Topic</strong>: ${
+    o.title ? escapeHtml(o.title) : "<em>—</em>"
+  }</div>
+  <div style="color:#bfbfbf; font-size:13px"><strong>Description</strong>: ${
+    o.description ? escapeHtml(o.description) : "<em>—</em>"
+  }</div>
+  <div style="color:#bfbfbf; font-size:13px; margin-top:8px"><strong>Instagram</strong>: ${
+    o.instagram
+      ? `<a href="https://instagram.com/${encodeURIComponent(
+          o.instagram.replace(/^@/, "")
+        )}" target="_blank" rel="noopener" class="ghost-small">${escapeHtml(
           o.instagram
-            ? `<a href="https://instagram.com/${encodeURIComponent(
-                o.instagram.replace(/^@/, "")
-              )}" target="_blank" rel="noopener" class="ghost-small">${escapeHtml(
-                o.instagram
-              )}</a>`
-            : "<em>—</em>"
-        }</div>
-        <div style="color:#bfbfbf; font-size:13px; margin-top:6px"><strong>Email</strong>: ${
-          o.email ? escapeHtml(o.email) : "<em>—</em>"
-        }</div>
-        <div style="color:#bfbfbf; font-size:13px; margin-top:6px"><strong>Phone</strong>: ${
-          o.phone ? escapeHtml(o.phone) : "<em>—</em>"
-        }</div>
-      `;
+        )}</a>`
+      : "<em>—</em>"
+  }</div>
+  <div style="color:#bfbfbf; font-size:13px; margin-top:6px"><strong>Email</strong>: ${
+    o.email ? escapeHtml(o.email) : "<em>—</em>"
+  }</div>
+  <div style="color:#bfbfbf; font-size:13px; margin-top:6px"><strong>Phone</strong>: ${
+    o.phone ? escapeHtml(o.phone) : "<em>—</em>"
+  }</div>
+`;
 
           const right = document.createElement("div");
           right.className = "order-right";
@@ -388,7 +405,7 @@
                 product_type: o.productType,
                 quality: o.quality,
                 cost_label: o.costLabel || o.cost,
-                description: o.description || "",
+                topic: o.topic || "",
                 phone: o.phone || "",
               };
               if (!window.emailjs) {
@@ -410,15 +427,15 @@
           del.className = "trash";
           del.textContent = "Delete";
           del.addEventListener("click", async () => {
-            if (!confirm("Delete this order?")) return;
+            if (!confirm("Are you sure you want to delete this order?")) return;
             try {
               const orderRef = doc(window.db, "orders", o.id);
               await updateDoc(orderRef, { deleted: true });
-              alert("Order marked as deleted.");
-              await loadOrders();
+              alert("Order deleted successfully.");
+              card.remove(); // instantly remove from DOM
             } catch (e) {
-              console.error("Error marking deleted:", e);
-              alert("Failed to mark order deleted.");
+              console.error("Error deleting order:", e);
+              alert("Failed to delete order.");
             }
           });
 
