@@ -264,7 +264,11 @@
       }
 
       .openCustomBtn {
-        width: auto;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 16px;
       }
 
       .str {
@@ -852,7 +856,7 @@
 
     <section id="home" class="hero">
       <div class="hero-inner">
-        <div class="badge">Premium Design • Templates • Mockups</div>
+        <div class="badge">Premium Design • Templates • Flyers</div>
         <h2>
           Hi — I'm
           <span
@@ -866,10 +870,10 @@
           ><br />The Creator of Shot.Cut
         </h2>
         <p class="lead">
-          I craft high-converting poster templates, mockups, and flyer designs —
-          optimized for online stores, Instagram, and print. I focus on clarity,
-          high resolution, and editable PSD/AI files with organized layers so
-          anyone can customize easily.
+          I craft high-converting poster templates, and flyer designs —
+          optimized for online stores, Advertising, and Print. I focus on
+          clarity, high resolution, and editable PSD, AI, and Canva files with
+          organized layers so anyone can customize easily.
         </p>
 
         <div class="cta-row">
@@ -877,7 +881,7 @@
             📞 Order Now
           </a>
 
-          <a class="btn btn-outline" href="#skills">Disclaimer / About me</a>
+          <a class="btn btn-outline" href="#skills">⚠️ Disclaimer / About me</a>
 
           <a class="btn btn-outline" href="#gallery"
             >⬇ &nbsp; Download templates</a
@@ -897,13 +901,6 @@
             ⚠️ Important Disclaimer
           </h3>
           <ul class="skills-list disclaimer-list">
-            <li>
-              <div class="skill-dot"></div>
-              <div>
-                All design samples are for demonstration only and may be subject
-                to third-party copyright.
-              </div>
-            </li>
             <li>
               <div class="skill-dot"></div>
               <div>
@@ -927,8 +924,8 @@
             <li>
               <div class="skill-dot"></div>
               <div>
-                Templates bought are only for your personal use, do not resell
-                or redistribute.
+                Templates bought are only for your use, do not resell or
+                redistribute.
               </div>
             </li>
           </ul>
@@ -938,30 +935,34 @@
             <h3>About Me</h3>
             <p class="about-text">
               I'm <strong>Saifan</strong>, a digital creator who builds premium,
-              market-ready graphic assets: poster templates, mockups, flyers,
-              and social media packs. I combine visual strategy with design
-              tools to produce editable templates that sell — and I provide
-              files that are easy for your customers to customize.
+              market-ready graphic assets: poster templates, flyers, and social
+              media packs. I combine visual strategy with design tools to
+              produce editable templates that sell — and I provide files that
+              are easy for you to customize.
             </p>
 
             <p class="about-text">
-              I specialize in delivering clean, layered PSD and vector AI files,
-              and I also create Canva-ready versions for fast customization. My
-              work is focused on modern aesthetics, correct print specs, and
-              on-trend visual language for marketplaces and social media stores.
+              I specialize in delivering clean, layered PSD (Photoshop), and AI
+              (illustrator), files, and I also create Canva-ready versions for
+              fast customization. My work is focused on modern aesthetics,
+              correct print specs, and on-trend visual language for marketplaces
+              and social media stores.
             </p>
 
             <div class="custom">
-              Custom Orders: I accept bespoke requests — templates, posters,
-              flyers, and mockups tailored to your brand. If you need a design
-              package or a fully editable mockup for product launches, I can
-              design it for you on request.
+              Custom Orders: I accept bespoke requests — templates, posters, and
+              flyers, tailored to your brand. If you need a design package or a
+              fully editable template for product launches, I can design it for
+              you on request.
+              <p style="color: #00ffc6">
+                Click below to request a custom order.
+              </p>
             </div>
 
             <div style="margin-top: 14px; display: flex; gap: 10px">
               <!-- Replaced "Call" and "Chat" with single Custom Order button -->
               <button
-                class="btn btn-primary openCustomBtn"
+                class="btn btn-primary openCustomBtn ordr"
                 title="Custom Orders"
               >
                 Custom Order
@@ -987,18 +988,19 @@
               <li>
                 <div class="skill-dot"></div>
                 <div>
-                  <strong>Mockups</strong>
+                  <strong>Flyer & Promo Designs</strong>
                   <div style="color: #bfbfbf; font-size: 13px">
-                    Photorealistic PSD mockups with smart-objects
+                    Editable files for print & digital campaigns
                   </div>
                 </div>
               </li>
               <li>
                 <div class="skill-dot"></div>
                 <div>
-                  <strong>Flyer & Promo Designs</strong>
+                  <strong>Custom Designs</strong>
                   <div style="color: #bfbfbf; font-size: 13px">
-                    Editable files for print & digital campaigns
+                    I also accept custom posters, flyers or templates of your
+                    choice.
                   </div>
                 </div>
               </li>
@@ -1030,12 +1032,12 @@
     <section id="gallery" class="section">
       <div class="container">
         <h3 style="color: var(--accent); margin-bottom: 18px; font-size: 26px">
-          Want Editable Templates & Mockups?
+          Want Editable Templates ?
         </h3>
         <p style="color: #bfbfbf; margin-bottom: 18px">
           There are different types of templates. Choose your type and click on
-          image. [Note: Now this page Dosen't Has Many Templates, Soon More
-          Templates will be Added.].
+          image.<br />[<strong>Note</strong>: Now this page Dosen't Has Many
+          Templates, Soon More Templates will be Added.].
         </p>
 
         <div class="carousel-wrap">
@@ -1189,7 +1191,7 @@
     <footer id="contact">
       <div class="footer-inner container">
         <p>
-          © <strong>Saifan</strong> • Premium Design & Mockups •
+          © <strong>Saifan</strong> • Premium Design & Templates •
           <span style="color: var(--accent)">Ready-to-customize Templates</span>
         </p>
 
@@ -1300,7 +1302,7 @@
             <label for="title">Topic</label>
             <textarea
               id="title"
-              placeholder="Sizes, text, colours, references..."
+              placeholder="Add Your Design Topic Here..."
               required
             ></textarea>
           </div>
@@ -1312,7 +1314,7 @@
             <label for="description">Description information</label>
             <textarea
               id="description"
-              placeholder="Extra notes, deadline, source images links..."
+              placeholder="Size, Text, Colors, Images, referrence, etc..."
               required
             ></textarea>
           </div>
@@ -1330,7 +1332,8 @@
             />
             <div style="color: #bfbfbf; font-size: 13px; margin-top: 6px">
               you will recieve an email once your order approved. Sometimes it
-              may appear in spam/junk folder.
+              may appear in
+              <span style="color: #00ffc6">spam/junk folder</span>.
             </div>
           </div>
         </div>
@@ -1365,7 +1368,6 @@
           <div class="col">
             <label for="currency">Currency (required)</label>
             <select id="currency" required>
-              <option value="">Select currency</option>
               <option value="USD" selected>USD — $</option>
               <option value="INR">INR — ₹</option>
               <option value="EUR">EUR — €</option>
@@ -1405,9 +1407,45 @@
           />
           <label
             for="instaConfirm"
-            style="color: #cfcfcf; font-size: 14px; cursor: pointer"
+            style="
+              color: #cfcfcf;
+              font-size: 14px;
+              cursor: pointer;
+              font-weight: 400;
+            "
           >
             I have followed you on Instagram
+          </label>
+        </div>
+
+        <!-- Disclaimer checkbox -->
+        <div
+          style="margin-top: 8px; display: flex; align-items: center; gap: 8px"
+        >
+          <input
+            type="checkbox"
+            id="instaConfirm"
+            style="width: 16px; height: 16px; cursor: pointer"
+          />
+          <label
+            for="instaConfirm"
+            style="
+              color: #cfcfcf;
+              font-size: 14px;
+              cursor: pointer;
+              font-weight: 400;
+            "
+          >
+            I had already read
+            <a
+              href="#skills"
+              target="_blank"
+              rel="noopener"
+              style="color: var(--accent); text-decoration: underline"
+            >
+              Disclaimer
+            </a>
+            and wouldn't violate it
           </label>
         </div>
 
@@ -1526,13 +1564,17 @@
       const orderSuccessEl = document.getElementById("orderSuccess");
 
       // price mapping in USD base
-      const priceByQuality = { Basic: 4, Standard: 8, Premium: 12 };
+      const priceByQuality = {
+        Basic: 2.87356,
+        Standard: 5.7356,
+        Premium: 8.034482,
+      };
 
       // simple static conversion rates (you can update later)
       const conversion = {
         USD: { rate: 1, symbol: "$", format: (v) => `$${v}` },
-        INR: { rate: 83, symbol: "₹", format: (v) => `₹${v}` },
-        EUR: { rate: 0.92, symbol: "€", format: (v) => `€${v}` },
+        INR: { rate: 87, symbol: "₹", format: (v) => `₹${v}` },
+        EUR: { rate: 0.9, symbol: "€", format: (v) => `€${v}` },
       };
 
       function computeCostRaw() {
@@ -1711,15 +1753,11 @@
     </script>
     <!-- Firebase v10+ (modular SDK) -->
     <script type="module">
-      import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
       import {
         getFirestore,
         collection,
         addDoc,
-        getDocs,
-        updateDoc,
-        doc,
       } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
       const firebaseConfig = {
@@ -1734,16 +1772,43 @@
       const app = initializeApp(firebaseConfig);
       const db = getFirestore(app);
 
-      // export globally (optional)
-      window.db = db;
+      document
+        .getElementById("customOrderForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
 
-      try {
-        await addDoc(collection(window.db, "orders"), order);
-        orderSuccessEl.textContent = `Order successfully placed! Order ID: ${order.id}`;
-      } catch (e) {
-        console.error("Error saving order:", e);
-        alert("Failed to save order online. Please try again.");
-      }
+          const topic = document.getElementById("topic").value.trim();
+          const description = document
+            .getElementById("description")
+            .value.trim();
+          const email = document.getElementById("email").value.trim();
+          const phone = document.getElementById("phone").value.trim();
+          const instagram = document.getElementById("insta").value.trim();
+          const quality = document.getElementById("quality").value.trim();
+          const cost = document.getElementById("cost").value.trim();
+          const currency = "USD";
+
+          try {
+            await addDoc(collection(db, "orders"), {
+              productType: topic,
+              description,
+              email,
+              phone,
+              instagram,
+              quality,
+              cost,
+              currency,
+              status: "new",
+              createdAt: Date.now(),
+            });
+
+            alert("✅ Your order has been placed successfully!");
+            e.target.reset();
+          } catch (error) {
+            console.error("Error adding order:", error);
+            alert("❌ Failed to submit order. Please try again.");
+          }
+        });
     </script>
   </body>
 </html>
